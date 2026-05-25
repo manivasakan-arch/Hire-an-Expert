@@ -78,11 +78,13 @@
   /* ── 3-card tray: exact v5 layout ───────────────────────────── */
   .cards-tray{position:relative;width:100%;max-width:1128px;margin:0 auto;padding-top:21px;padding-bottom:8px}
   @media (max-width:900px){
-    .cards-tray{padding-top:0;display:flex;flex-direction:column;gap:12px;align-items:center}
+    .cards-tray{padding-top:0;display:flex;flex-direction:column;gap:12px;align-items:center;height:auto!important}
     .card,.card-pro{position:static!important;width:100%!important;max-width:420px!important;top:auto!important;left:auto!important;right:auto!important}
     .card-left{border-radius:4px!important;border-right:1px solid var(--border)!important}
     .card-right{border-radius:4px!important;border-left:1px solid var(--border)!important}
     .card-pro{order:-1;margin-top:0!important;border-radius:4px!important}
+    .card-pro .card-inner{padding-top:24px;padding-bottom:24px}
+    .cards-section.visible{max-height:2600px}
   }
   /* Tray height = tallest card (center card's natural height + 21px float) */
   @media (min-width:901px){.cards-tray{display:block;min-height:420px}}
