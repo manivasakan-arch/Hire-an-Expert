@@ -637,9 +637,8 @@
   function updateCards(slides) {
     document.getElementById('price-standard').textContent  = fmt(computePrice(slides, 72));
     document.getElementById('price-expedited').textContent = fmt(computePrice(slides, 24));
-    const over = slides > INCLUDED;
-    document.getElementById('note-standard').textContent  = over ? slides + ' slides · 72 hours' : '72 hours';
-    document.getElementById('note-expedited').textContent = over ? slides + ' slides · 24 hours' : '24 hours';
+    document.getElementById('note-standard').textContent  = slides + ' slides · 72 hours';
+    document.getElementById('note-expedited').textContent = slides + ' slides · 24 hours';
   }
 
   document.querySelectorAll('#slide-tiers .tier').forEach(btn => {
