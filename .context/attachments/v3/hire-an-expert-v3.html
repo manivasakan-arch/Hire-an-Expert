@@ -181,6 +181,14 @@
   .hiw-num{width:44px;height:44px;border-radius:999px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--font);font-weight:700;font-size:16px}
   .hiw-ctitle{font-family:var(--font);font-weight:700;font-size:clamp(18px,1.7vw,21px);letter-spacing:-.01em;color:var(--ink);margin:0}
   .hiw-ctext{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--ink2);margin:0}
+  /* subtle staggered bounce-in for the 3 cards on scroll */
+  .hiw.reveal .hiw-card{opacity:0}
+  .hiw.reveal.in .hiw-card{animation:hiwBounce .6s cubic-bezier(.34,1.56,.64,1) both}
+  .hiw.reveal.in .hiw-card:nth-child(1){animation-delay:.04s}
+  .hiw.reveal.in .hiw-card:nth-child(2){animation-delay:.14s}
+  .hiw.reveal.in .hiw-card:nth-child(3){animation-delay:.24s}
+  @keyframes hiwBounce{0%{opacity:0;transform:translateY(22px)}60%{opacity:1;transform:translateY(-6px)}100%{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){.hiw.reveal .hiw-card{opacity:1}.hiw.reveal.in .hiw-card{animation:none}}
   @media (max-width:760px){.hiw-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
   .tcard{flex:0 0 auto;width:var(--tw);scroll-snap-align:center;display:flex;gap:40px;align-items:center;padding:48px;min-height:min(540px,66vh);box-sizing:border-box;background:#fff;border:1px solid rgba(11,15,20,.2);border-radius:6px;overflow:hidden}
   .tcard-body{flex:0 0 360px;display:flex;flex-direction:column;justify-content:center;gap:30px}
@@ -241,6 +249,7 @@
   .faq-col{display:flex;flex-direction:column}
   .faq-item{border-bottom:1px solid rgba(26,26,26,.12)}
   .faq-q{width:100%;background:none;border:none;padding:22px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;font-family:var(--font);font-size:clamp(15px,1.2vw,17px);font-weight:500;color:var(--ink);cursor:pointer;text-align:left;line-height:1.4}
+  .faq-q span:first-child{text-wrap:balance}
   .faq-icon{position:relative;flex:0 0 auto;width:20px;height:20px;margin-top:1px}
   .faq-icon i{position:absolute;inset:0;display:grid;place-items:center;font-size:18px;color:var(--ink);transition:opacity .25s ease,transform .25s ease}
   .faq-icon .ph-minus{opacity:0;transform:rotate(-90deg)}
@@ -253,7 +262,7 @@
   .faq-a li{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:5px}
   @media (max-width:760px){.faq-cols{grid-template-columns:1fr;column-gap:0}}
   /* Stats / testimonials lead-in — eyebrow + italic heading + 3 big stats */
-  .wrap-divider{height:1px;width:min(1180px,calc(100% - 2*clamp(20px,4vw,56px)));background:rgba(26,26,26,.10);margin:clamp(72px,9vw,116px) auto clamp(20px,2.5vw,32px)}
+  .wrap-divider{height:1px;width:min(720px,calc(100% - 2*clamp(20px,4vw,56px)));background:rgba(26,26,26,.10);margin:clamp(72px,9vw,116px) auto clamp(20px,2.5vw,32px)}
   .stats{padding:clamp(48px,6vw,88px) 0 clamp(8px,2vw,24px)}
   .stats-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px);text-align:center}
   .stats-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 16px}
@@ -864,6 +873,20 @@
     window.addEventListener('resize', measure);
     window.addEventListener('load', measure);
     measure();
+  })();
+
+  /* How It Works — subtle staggered bounce when scrolled into view */
+  (function () {
+    const hiw = document.querySelector('.hiw');
+    if (!hiw || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    hiw.classList.add('reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { hiw.classList.add('in'); io.disconnect(); }
+      });
+    }, { threshold: 0.3 });
+    io.observe(hiw);
   })();
 </script>
 
