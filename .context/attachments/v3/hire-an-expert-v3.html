@@ -105,6 +105,8 @@
   .ob-overlay{position:fixed;inset:0;z-index:100;background:#fff;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
   .ob-overlay.show{opacity:1;visibility:visible}
   .ob-overlay iframe{width:100%;height:100%;border:0;display:block}
+  /* While onboarding overlay open, hide the page's own Agentation toolbar so only the iframe's instance is active */
+  body.ob-open [data-feedback-toolbar]{display:none!important;pointer-events:none!important}
   /* Pro card: pt-[45px] (floats higher), extra pb for extension */
   .card-pro .card-inner{padding-top:45px;padding-bottom:54px}
 
@@ -664,6 +666,7 @@
     fr.src = url;
     ov.classList.add('show');
     ov.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('ob-open');
     document.body.style.overflow = 'hidden';
   }
   function closeOnboarding() {
@@ -671,6 +674,7 @@
     const fr = document.getElementById('ob-frame');
     ov.classList.remove('show');
     ov.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('ob-open');
     document.body.style.overflow = '';
     setTimeout(() => { if (!ov.classList.contains('show')) fr.src = 'about:blank'; }, 300);
   }
