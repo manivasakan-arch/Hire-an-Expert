@@ -244,6 +244,18 @@
   .faq-a ul{margin:8px 0 0;padding-left:18px}
   .faq-a li{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:5px}
   @media (max-width:760px){.faq-cols{grid-template-columns:1fr;column-gap:0}}
+  /* Stats / testimonials lead-in — eyebrow + italic heading + 3 big stats */
+  .stats{padding:clamp(56px,7vw,96px) 0 clamp(8px,2vw,24px)}
+  .stats-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px);text-align:center}
+  .stats-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 16px}
+  .stats-title{font-family:var(--font);font-size:clamp(30px,4.6vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.05;color:var(--ink);margin:0 auto;max-width:18ch}
+  .stats-title em{font-style:italic;font-weight:600}
+  .stats-sub{font-family:var(--font);font-size:clamp(15px,1.4vw,18px);line-height:1.55;color:var(--ink2);max-width:520px;margin:18px auto 0}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,48px);margin-top:clamp(48px,6vw,80px)}
+  .stat{text-align:left}
+  .stat-num{font-family:var(--font);font-size:clamp(44px,5.5vw,84px);font-weight:500;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .stat-label{font-family:var(--font);font-size:clamp(14px,1.2vw,16px);color:var(--ink2);margin-top:18px;padding-bottom:22px;border-bottom:1px solid rgba(26,26,26,.12)}
+  @media (max-width:760px){.stats-grid{grid-template-columns:1fr;gap:28px}.stat{text-align:center}}
 
   /* Sticky footer */
   .site-footer{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 -1px 0 rgba(0,0,0,.06);z-index:50}
@@ -386,6 +398,29 @@
   </div><!-- /cards-section -->
 
 </div><!-- /wrap -->
+
+<!-- Stats — testimonials lead-in / title -->
+<section class="stats">
+  <div class="stats-inner">
+    <p class="stats-eyebrow">Trusted by teams</p>
+    <h2 class="stats-title">Your plug-in <em>presentation design</em> partner</h2>
+    <p class="stats-sub">Our experts have redesigned thousands of decks for teams who need standout, on-deadline presentation design.</p>
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">12k+</div>
+        <div class="stat-label">Presentation projects delivered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">800+</div>
+        <div class="stat-label">Teams have used our deck design</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4.9/5</div>
+        <div class="stat-label">Average approval rating from clients</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Testimonials — pinned horizontal scroll: vertical scroll drives cards right-to-left, then releases to next section -->
 <section class="t-pin" id="t-pin">
