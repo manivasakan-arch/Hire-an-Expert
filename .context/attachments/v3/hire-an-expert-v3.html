@@ -153,7 +153,7 @@
 
   /* ── Testimonials — v5 style ──────────────────────────────── */
   /* testimonials v2 — figma redesign: wide horizontal cards, serif quote left + stacked image deck right */
-  .testimonials{margin-top:clamp(64px,7vw,96px);display:flex;gap:40px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;padding:4px 0 14px;-webkit-overflow-scrolling:touch}
+  .testimonials{margin-top:clamp(64px,7vw,96px);width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);display:flex;gap:40px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:clamp(20px,4vw,56px);padding:4px clamp(20px,4vw,56px) 14px;-webkit-overflow-scrolling:touch}
   .testimonials::-webkit-scrollbar{height:0}
   .tcard{flex:0 0 auto;width:min(1024px,92vw);scroll-snap-align:center;display:flex;gap:24px;align-items:flex-start;padding:39px;min-height:418px;box-sizing:border-box;background:#fff;border:1px solid rgba(11,15,20,.2);border-radius:4px;overflow:hidden}
   .tcard-body{flex:0 0 304px;display:flex;flex-direction:column;gap:30px}
