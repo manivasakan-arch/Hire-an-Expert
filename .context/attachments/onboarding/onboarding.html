@@ -679,16 +679,18 @@
       chip.appendChild(rm);
     }
   }
-  document.querySelectorAll('#colors .color-chip').forEach(bindChip);
-  $addColor.addEventListener('click', () => {
-    if ($colors.querySelectorAll('.color-chip').length >= 6) return;
-    const chip = document.createElement('label');
-    chip.className = 'color-chip';
-    chip.style.background = '#cccccc';
-    chip.innerHTML = '<input type="color" value="#cccccc">';
-    $colors.insertBefore(chip, $addColor);
-    bindChip(chip);
-  });
+  if ($colors && $addColor) {
+    document.querySelectorAll('#colors .color-chip').forEach(bindChip);
+    $addColor.addEventListener('click', () => {
+      if ($colors.querySelectorAll('.color-chip').length >= 6) return;
+      const chip = document.createElement('label');
+      chip.className = 'color-chip';
+      chip.style.background = '#cccccc';
+      chip.innerHTML = '<input type="color" value="#cccccc">';
+      $colors.insertBefore(chip, $addColor);
+      bindChip(chip);
+    });
+  }
 
   // ── Chip toggles ──────────────────────────────────────────────────────────
   document.querySelectorAll('#styles .chip').forEach(c => c.addEventListener('click', () => {
