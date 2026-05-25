@@ -98,9 +98,15 @@
 
   /* Card inner — v5: p-6 = 24px, gap-4 = 16px */
   .card-inner{padding:24px;display:flex;flex-direction:column;gap:16px}
-  .card-tag{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:5px 12px;border-radius:999px;background:#fff;border:1px solid var(--border-brand);font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--navy)}
-  .card-tag i{font-size:13px}
-  .card-pro .card-tag{background:var(--navy);border-color:var(--navy);color:#fff}
+  .card-tag{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:5px 12px;border-radius:999px;background:#fff;border:1px solid var(--border-soft);font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--ink2)}
+  .card-tag i{font-size:13px;color:var(--ink3)}
+  .card-pro .card-tag{background:rgba(22,163,74,.10);border-color:rgba(22,163,74,.26);color:#0f7a37}
+  .card-pro .card-tag i{color:var(--success)}
+  .ob-overlay{position:fixed;inset:0;z-index:100;background:#fff;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
+  .ob-overlay.show{opacity:1;visibility:visible}
+  .ob-overlay iframe{width:100%;height:100%;border:0;display:block}
+  /* While onboarding overlay open, hide the page's own Agentation toolbar so only the iframe's instance is active */
+  body.ob-open [data-feedback-toolbar]{display:none!important;pointer-events:none!important}
   /* Pro card: pt-[45px] (floats higher), extra pb for extension */
   .card-pro .card-inner{padding-top:45px;padding-bottom:54px}
 
@@ -146,16 +152,76 @@
   .tchip img{width:22px;height:22px;display:block;object-fit:contain}
 
   /* ── Testimonials — v5 style ──────────────────────────────── */
-  .testimonials{margin-top:clamp(64px,7vw,96px);display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media (max-width:860px){.testimonials{grid-template-columns:1fr}}
-  .tcard{padding:32px 24px;border-radius:4px;background:#fff;border:1px solid var(--border);display:flex;flex-direction:column;gap:32px}
-  .tcard-quote{font-family:'Hedvig Letters Serif',Georgia,serif;font-style:italic;font-weight:400;font-size:17px;color:var(--ink);line-height:1.45}
-  .tcard-author{display:flex;align-items:center;gap:12px;margin-top:auto}
-  .tcard-avatar{width:48px;height:48px;border-radius:999px;background:#f5f5f5;overflow:hidden;flex:0 0 auto}
+  /* testimonials v2 — figma redesign: wide horizontal cards, serif quote left + stacked image deck right */
+  /* pinned horizontal scroll: .t-pin = tall wrapper, .t-pin-sticky = 100vh viewport, JS translates the track */
+  .t-pin{position:relative;margin-top:clamp(24px,3vw,40px)}
+  .t-pin-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:clamp(24px,4vh,48px);overflow:hidden}
+  .t-pin-head{flex:0 0 auto;text-align:center;padding:0 clamp(20px,4vw,56px)}
+  .t-pin-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 12px}
+  .t-pin-title{font-family:var(--font);font-weight:700;font-size:clamp(24px,2.8vw,38px);letter-spacing:-.02em;line-height:1.15;color:var(--ink);margin:0;text-wrap:balance}
+  .t-pin-title em{font-family:var(--font);font-style:normal;font-weight:inherit}
+  .testimonials{--tw:min(1320px,88vw);display:flex;gap:40px;padding:0 max(clamp(20px,4vw,56px),calc((100vw - var(--tw)) / 2));will-change:transform}
+  .testimonials::-webkit-scrollbar{height:0}
+  .t-pin.no-pin .t-pin-sticky{position:static;height:auto;overflow:visible}
+  .t-pin.no-pin .testimonials{transform:none!important;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  @media (max-width:860px){
+    .t-pin .t-pin-sticky{position:static;height:auto;overflow:visible}
+    .t-pin .testimonials{transform:none!important;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  }
+  /* How It Works — full-bleed cream band, 3 numbered steps */
+  .hiw{background:#f6f5f2;padding:clamp(56px,7vw,96px) 0}
+  .hiw-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+  .hiw-head{text-align:center;margin-bottom:clamp(32px,4vw,56px)}
+  .hiw-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 16px}
+  .hiw-title em{font-family:var(--font);font-style:normal;font-weight:inherit}
+  .hiw-title{font-family:var(--font);font-weight:700;font-size:clamp(24px,2.8vw,38px);letter-spacing:-.02em;color:var(--ink);margin:0;text-wrap:balance}
+  .hiw-sub{font-family:var(--font);font-size:clamp(15px,1.4vw,18px);line-height:1.5;color:var(--ink2);max-width:480px;margin:0 auto}
+  .hiw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,1.6vw,24px)}
+  .hiw-card{background:#fff;border:1px solid var(--border-soft);border-radius:14px;padding:clamp(28px,3vw,40px) clamp(20px,2.4vw,32px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .hiw-num{width:44px;height:44px;border-radius:999px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--font);font-weight:700;font-size:16px}
+  .hiw-ctitle{font-family:var(--font);font-weight:700;font-size:clamp(18px,1.7vw,21px);letter-spacing:-.01em;color:var(--ink);margin:0}
+  .hiw-ctext{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--ink2);margin:0}
+  /* subtle staggered bounce-in for the 3 cards on scroll */
+  .hiw.reveal .hiw-card{opacity:0}
+  .hiw.reveal.in .hiw-card{animation:hiwBounce .6s cubic-bezier(.34,1.56,.64,1) both}
+  .hiw.reveal.in .hiw-card:nth-child(1){animation-delay:.04s}
+  .hiw.reveal.in .hiw-card:nth-child(2){animation-delay:.14s}
+  .hiw.reveal.in .hiw-card:nth-child(3){animation-delay:.24s}
+  @keyframes hiwBounce{0%{opacity:0;transform:translateY(22px)}60%{opacity:1;transform:translateY(-6px)}100%{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){.hiw.reveal .hiw-card{opacity:1}.hiw.reveal.in .hiw-card{animation:none}}
+  @media (max-width:760px){.hiw-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
+  /* Use cases — dark full-bleed band, DS icons */
+  .uc{background:#0A1925;color:#fff;padding:clamp(64px,8vw,112px) 0}
+  .uc-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+  .uc-head{text-align:center;max-width:760px;margin:0 auto clamp(48px,6vw,80px)}
+  .uc-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin:0 0 18px}
+  .uc-title{font-family:var(--font);font-weight:700;font-size:clamp(24px,2.8vw,38px);letter-spacing:-.02em;line-height:1.1;color:#fff;margin:0;text-wrap:balance}
+  .uc-title em{font-family:var(--font);font-style:normal;font-weight:inherit}
+  .uc-sub{font-family:var(--font);font-size:clamp(15px,1.3vw,17px);line-height:1.55;color:rgba(255,255,255,.6);margin:18px auto 0;max-width:520px}
+  .uc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(36px,4.5vw,64px) clamp(32px,4vw,56px)}
+  .uc-ico{width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:grid;place-items:center;margin-bottom:22px}
+  .uc-ico i{font-size:24px;color:#fff}
+  .uc-item h3{font-family:var(--font);font-size:clamp(17px,1.4vw,20px);font-weight:600;letter-spacing:-.01em;color:#fff;margin:0 0 10px}
+  .uc-item p{font-family:var(--font);font-size:14px;line-height:1.6;color:rgba(255,255,255,.6);margin:0;max-width:34ch}
+  @media (max-width:860px){.uc-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.uc-grid{grid-template-columns:1fr}}
+  .tcard{flex:0 0 auto;width:var(--tw);scroll-snap-align:center;display:flex;gap:40px;align-items:center;padding:48px;min-height:min(540px,66vh);box-sizing:border-box;background:#fff;border:1px solid rgba(11,15,20,.2);border-radius:6px;overflow:hidden}
+  .tcard-body{flex:0 0 360px;display:flex;flex-direction:column;justify-content:center;gap:30px}
+  .tcard-quote{font-family:'Hedvig Letters Serif',Georgia,serif;font-style:normal;font-weight:400;font-size:24px;line-height:1.5;color:var(--ink)}
+  .tcard-author{display:flex;align-items:center;gap:10px}
+  .tcard-avatar{width:44px;height:44px;border-radius:999px;border:1px solid rgba(11,15,20,.09);background:#f5f5f5;overflow:hidden;flex:0 0 auto}
   .tcard-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-  .tcard-meta{line-height:1.2}
-  .tcard-meta strong{display:block;font-size:13px;font-weight:600;color:var(--ink)}
-  .tcard-meta span{font-size:12px;color:var(--ink3);margin-top:2px;display:block}
+  .tcard-meta{display:flex;flex-direction:column;gap:2px}
+  .tcard-meta strong{font-family:var(--font);font-size:14px;font-weight:500;color:var(--ink);opacity:.8}
+  .tcard-meta span{font-family:var(--font);font-size:12px;font-weight:400;color:var(--ink2);opacity:.8}
+  .tcard-deck{flex:1 1 auto;min-width:0;align-self:center;display:flex;align-items:center;justify-content:center}
+  .tcard-deck img{width:100%;height:auto;max-height:100%;object-fit:contain;display:block}
+  @media (max-width:860px){
+    .testimonials{gap:20px}
+    .tcard{flex-direction:column;width:min(560px,88vw);min-height:0;padding:24px}
+    .tcard-body{flex:none;width:100%}
+    .tcard-deck{width:100%;align-self:stretch}
+  }
 
   /* ── Sticky slide selector bar ─────────────────────────────── */
   .sticky-sel{position:fixed;top:0;left:0;right:0;z-index:55;background:rgba(255,255,255,.92);backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);box-shadow:0 1px 0 rgba(0,0,0,.08);transform:translateY(-100%);transition:transform .3s ease;pointer-events:none}
@@ -190,14 +256,39 @@
 
   /* ── FAQ ───────────────────────────────────────────────────── */
   .faq{margin-top:clamp(48px,5vw,72px)}
-  .faq-title{font-size:clamp(20px,2vw,26px);font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:20px}
-  .faq-item{border-bottom:1px solid rgba(26,26,26,.10)}
-  .faq-q{width:100%;background:none;border:none;padding:18px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:var(--font);font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
-  .faq-q i{font-size:18px;color:var(--ink2);flex:0 0 auto;transition:transform .2s ease}
-  .faq-item.open .faq-q i{transform:rotate(180deg)}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
-  .faq-item.open .faq-a{max-height:200px;padding-bottom:16px}
-  .faq-a p{font-size:14px;color:var(--ink2);line-height:1.65}
+  .faq-head{margin-bottom:clamp(36px,5vw,56px);text-align:center}
+  .faq-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 14px}
+  .faq-title{font-family:var(--font);font-size:clamp(24px,2.8vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--ink);margin:0;text-wrap:balance}
+  .faq-title em{font-family:var(--font);font-style:normal;font-weight:inherit}
+  .faq-cols{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(40px,5vw,80px)}
+  .faq-col{display:flex;flex-direction:column}
+  .faq-item{border-bottom:1px solid rgba(26,26,26,.12)}
+  .faq-q{width:100%;background:none;border:none;padding:22px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;font-family:var(--font);font-size:clamp(15px,1.2vw,17px);font-weight:500;color:var(--ink);cursor:pointer;text-align:left;line-height:1.4}
+  .faq-q span:first-child{text-wrap:balance}
+  .faq-icon{position:relative;flex:0 0 auto;width:20px;height:20px;margin-top:1px}
+  .faq-icon i{position:absolute;inset:0;display:grid;place-items:center;font-size:18px;color:var(--ink);transition:opacity .25s ease,transform .25s ease}
+  .faq-icon .ph-minus{opacity:0;transform:rotate(-90deg)}
+  .faq-item.open .faq-icon .ph-plus{opacity:0;transform:rotate(90deg)}
+  .faq-item.open .faq-icon .ph-minus{opacity:1;transform:rotate(0)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease}
+  .faq-item.open .faq-a{max-height:520px;padding-bottom:22px}
+  .faq-a p{font-size:14px;color:var(--ink2);line-height:1.65;margin:0}
+  .faq-a ul{margin:8px 0 0;padding-left:18px}
+  .faq-a li{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:5px}
+  @media (max-width:760px){.faq-cols{grid-template-columns:1fr;column-gap:0}}
+  /* Stats / testimonials lead-in — eyebrow + italic heading + 3 big stats */
+  .wrap-divider{height:1px;width:min(720px,calc(100% - 2*clamp(20px,4vw,56px)));background:rgba(26,26,26,.10);margin:clamp(72px,9vw,116px) auto clamp(20px,2.5vw,32px)}
+  .stats{padding:clamp(48px,6vw,88px) 0 clamp(8px,2vw,24px)}
+  .stats-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px);text-align:center}
+  .stats-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 16px}
+  .stats-title{font-family:var(--font);font-size:clamp(24px,2.8vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--ink);margin:0 auto;white-space:nowrap}
+  .stats-title em{font-family:var(--font);font-style:normal;font-weight:inherit}
+  .stats-sub{font-family:var(--font);font-size:clamp(15px,1.4vw,18px);line-height:1.55;color:var(--ink2);max-width:520px;margin:18px auto 0}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,48px);margin-top:clamp(48px,6vw,80px)}
+  .stat{text-align:left}
+  .stat-num{font-family:var(--font);font-size:clamp(32px,3.4vw,48px);font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+  .stat-label{font-family:var(--font);font-size:clamp(14px,1.2vw,16px);color:var(--ink2);margin-top:18px;padding-bottom:22px;border-bottom:1px solid rgba(26,26,26,.12)}
+  @media (max-width:760px){.stats-grid{grid-template-columns:1fr;gap:28px}.stat{text-align:center}.stats-title{white-space:normal}}
 
   /* Sticky footer */
   .site-footer{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 -1px 0 rgba(0,0,0,.06);z-index:50}
@@ -221,7 +312,7 @@
 <!-- Sticky slide selector bar -->
 <div class="sticky-sel" id="sticky-sel" aria-hidden="true">
   <div class="sticky-sel-inner">
-    <span class="sticky-sel-label">How many slides need designing?</span>
+    <span class="sticky-sel-label">How long is your presentation?</span>
     <div class="sticky-tiers" id="sticky-tiers">
       <button class="sticky-tier" data-slides="10" onclick="stickyPick(this)"><span class="st-label">≤ 10</span><span class="st-sub">slides</span></button>
       <button class="sticky-tier" data-slides="20" onclick="stickyPick(this)"><span class="st-label">11–20</span><span class="st-sub">slides</span></button>
@@ -339,99 +430,183 @@
 
   </div><!-- /cards-section -->
 
-  <!-- divider -->
-  <div style="height:1px;background:rgba(26,26,26,.09);margin:clamp(64px,7vw,96px) 0"></div>
-
-  <!-- Testimonials -->
-  <div class="testimonials">
-
-    <div class="tcard">
-      <p class="tcard-quote">"Sent a rough deck on Monday morning. By Tuesday afternoon I had something I was genuinely proud to present to our board. Worth every penny."</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar"><img src="t-2.png" alt="Sarah R."></div>
-        <div class="tcard-meta">
-          <strong>Sarah R.</strong>
-          <span>VP of Product • Series B startup</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard">
-      <p class="tcard-quote">"I've tried a dozen freelancers. This is the first time I didn't have to chase anyone or explain the same thing twice. Smooth process, beautiful result."</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar"><img src="t-1.png" alt="Marcus K."></div>
-        <div class="tcard-meta">
-          <strong>Marcus K.</strong>
-          <span>Strategy Lead • McKinsey</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard">
-      <p class="tcard-quote">"Used the expedited option for a last-minute pitch. Designer started within an hour. Closed the deal. I come back every quarter now."</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar"><img src="t-3.png" alt="Jamie L."></div>
-        <div class="tcard-meta">
-          <strong>Jamie L.</strong>
-          <span>Founder • SaaS company</span>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /testimonials -->
-
 </div><!-- /wrap -->
 
-<!-- Our work — full bleed outside wrap -->
-<div style="margin-top:clamp(48px,5vw,72px)">
-  <div style="max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)">
-    <div style="height:1px;background:rgba(26,26,26,.09);margin-bottom:clamp(40px,5vw,64px)"></div>
-    <h2 class="ourwork-title">Our work</h2>
-  </div>
-  <div class="ourwork-viewport" id="ourwork-viewport">
-    <div class="ourwork-track" id="ourwork-track">
-      <div class="work-slide active"><img src="work-1.png" alt="Market position deck"></div>
-      <div class="work-slide"><img src="work-3.png" alt="Feature adoption metrics"></div>
-      <div class="work-slide"><img src="work-4.png" alt="Data-driven campaigns"></div>
-      <div class="work-slide"><img src="work-5.png" alt="Compliance report"></div>
+<div class="wrap-divider"></div>
+
+<!-- Stats — testimonials lead-in / title -->
+<section class="stats">
+  <div class="stats-inner">
+    <p class="stats-eyebrow">Trusted by teams</p>
+    <h2 class="stats-title">Your plug-in <em>presentation design</em> partner</h2>
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">12k+</div>
+        <div class="stat-label">Presentation projects delivered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">800+</div>
+        <div class="stat-label">Teams have used our deck design</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4.9/5</div>
+        <div class="stat-label">Average approval rating from clients</div>
+      </div>
     </div>
   </div>
-  <div class="ourwork-nav">
-    <button class="ourwork-btn" id="ow-prev" onclick="owMove(-1)" disabled aria-label="Previous"><i class="ph ph-caret-left"></i></button>
-    <button class="ourwork-btn" id="ow-next" onclick="owMove(1)" aria-label="Next"><i class="ph ph-caret-right"></i></button>
-  </div>
-  <div style="height:clamp(40px,5vw,64px)"></div>
-</div>
+</section>
 
-<!-- FAQ — below Our work, aligned with page -->
+<!-- Testimonials — pinned horizontal scroll: vertical scroll drives cards right-to-left, then releases to next section -->
+<section class="t-pin" id="t-pin">
+  <div class="t-pin-sticky">
+    <div class="t-pin-head">
+      <p class="t-pin-eyebrow">Testimonials</p>
+      <h2 class="t-pin-title">What our clients <em>say</em></h2>
+    </div>
+    <div class="testimonials" id="testimonials-track">
+
+    <div class="tcard">
+      <div class="tcard-body">
+        <p class="tcard-quote">"Sent a rough deck on Monday morning. By Tuesday afternoon I had something I was genuinely proud to present to our board. Worth every penny."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar"><img src="t-2.png" alt="Sarah R."></div>
+          <div class="tcard-meta">
+            <strong>Sarah R.</strong>
+            <span>VP of Product • Series B startup</span>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-deck"><img src="1.png" alt="Market problem analysis slide"></div>
+    </div>
+
+    <div class="tcard">
+      <div class="tcard-body">
+        <p class="tcard-quote">"I've tried a dozen freelancers. This is the first time I didn't have to chase anyone or explain the same thing twice. Smooth process, beautiful result."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar"><img src="t-1.png" alt="Marcus K."></div>
+          <div class="tcard-meta">
+            <strong>Marcus K.</strong>
+            <span>Strategy Lead • McKinsey</span>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-deck"><img src="2.png" alt="Product overview slide"></div>
+    </div>
+
+    <div class="tcard">
+      <div class="tcard-body">
+        <p class="tcard-quote">"Used the expedited option for a last-minute pitch. Designer started within an hour. Closed the deal. I come back every quarter now."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar"><img src="t-3.png" alt="Jamie L."></div>
+          <div class="tcard-meta">
+            <strong>Jamie L.</strong>
+            <span>Founder • SaaS company</span>
+          </div>
+        </div>
+      </div>
+      <div class="tcard-deck"><img src="3.png" alt="Background and track record slide"></div>
+    </div>
+
+    </div><!-- /testimonials track -->
+  </div><!-- /.t-pin-sticky -->
+</section><!-- /.t-pin -->
+
+<!-- How It Works -->
+<section class="hiw">
+  <div class="hiw-inner">
+    <div class="hiw-head">
+      <p class="hiw-eyebrow">Process</p>
+      <h2 class="hiw-title">How it <em>works</em></h2>
+    </div>
+    <div class="hiw-grid">
+      <div class="hiw-card">
+        <div class="hiw-num">1</div>
+        <h3 class="hiw-ctitle">Send your deck</h3>
+        <p class="hiw-ctext">Upload your existing slides and a short brief. PowerPoint, Keynote, PDF, or a Google Slides link all work.</p>
+      </div>
+      <div class="hiw-card">
+        <div class="hiw-num">2</div>
+        <h3 class="hiw-ctitle">We design &amp; refine</h3>
+        <p class="hiw-ctext">An expert designer reworks your narrative and visuals, iterating with you until every slide lands.</p>
+      </div>
+      <div class="hiw-card">
+        <div class="hiw-num">3</div>
+        <h3 class="hiw-ctitle">Delivered on deadline</h3>
+        <p class="hiw-ctext">Get a polished, presentation-ready deck back within your chosen turnaround: 24 hours, 72 hours, or a 5-day sprint.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
 <div style="max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(48px,5vw,72px)">
   <div style="height:1px;background:rgba(26,26,26,.09);margin-bottom:clamp(40px,5vw,64px)"></div>
   <div class="faq">
-    <h2 class="faq-title">Frequently asked questions</h2>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What do I need to send you?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Just your existing presentation file — PowerPoint, PDF, Google Slides link, or Keynote. We handle the rest. You can add brand guidelines, reference decks, and style preferences in the onboarding step after checkout.</p></div>
+    <div class="faq-head">
+      <p class="faq-eyebrow">FAQs</p>
+      <h2 class="faq-title">Frequently asked <em>questions</em></h2>
     </div>
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">How does the 24-hour turnaround work?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>A designer is assigned within 2 hours of your payment. Work runs through the night if needed. You receive the finished deck in your inbox within 24 hours, ready to present.</p></div>
-    </div>
+    <div class="faq-cols">
+      <div class="faq-col">
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Is my deck kept confidential?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Yes. We are SOC 2 Type II certified and GDPR compliant. All projects are covered by a standard NDA. Your files are never shared or used for any purpose outside your project.</p></div>
-    </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>How long does it take to redesign a presentation?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a">
+            <p>We offer two flexible turnaround options to meet your needs:</p>
+            <ul>
+              <li><b>Express 24-hour delivery:</b> perfect for urgent presentations when you need a quick turnaround.</li>
+              <li><b>Standard 72-hour delivery:</b> our most popular option, allowing extra time for detailed design work.</li>
+            </ul>
+          </div>
+        </div>
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What if I'm not happy with the result?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Every order includes 1 round of revisions. If you are still not satisfied after revisions, contact us. We will make it right or issue a full refund.</p></div>
-    </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>What file formats do you accept?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a"><p>We primarily work with PowerPoint presentations, but we can also handle other common presentation formats. You can upload your files directly through our secure platform.</p></div>
+        </div>
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I order more than 40 slides?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Yes. Select the closest tier and any slides beyond 25 are billed at a small per-slide rate (shown at checkout). For very large decks or recurring work, reach out to discuss a custom arrangement.</p></div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>How does the process work?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a">
+            <p>The process involves three simple steps:</p>
+            <ul>
+              <li>Upload your presentation and complete payment.</li>
+              <li>Our design team develops your presentation with professional visuals.</li>
+              <li>You receive your stunning, redesigned presentation.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Do I maintain ownership rights to my presentation?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a"><p>Yes, you retain full ownership rights to your presentation. We respect your intellectual property and content privacy.</p></div>
+        </div>
+
+      </div>
+      <div class="faq-col">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Can I request revisions?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a"><p>Yes, we offer one revision option to ensure you're completely satisfied with the final design. You can communicate any changes needed through email.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>How much does the service cost?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a"><p>Pricing varies based on the presentation length, complexity, and turnaround time selected. You'll get a quote before proceeding with the order, and we maintain a no-hidden-fees policy.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Is my content kept confidential?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a"><p>Yes, we maintain strict content privacy policies to protect your business information and presentation content throughout the design process.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Can you redesign presentations in languages other than English?</span><span class="faq-icon"><i class="ph ph-plus"></i><i class="ph ph-minus"></i></span></button>
+          <div class="faq-a"><p>Yes, we can work with presentations in multiple languages. Our design team can maintain your content while enhancing the visual elements, regardless of the language.</p></div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
@@ -486,9 +661,8 @@
   function updateCards(slides) {
     document.getElementById('price-standard').textContent  = fmt(computePrice(slides, 72));
     document.getElementById('price-expedited').textContent = fmt(computePrice(slides, 24));
-    const over = slides > INCLUDED;
-    document.getElementById('note-standard').textContent  = over ? slides + ' slides · 72 hours' : '72 hours';
-    document.getElementById('note-expedited').textContent = over ? slides + ' slides · 24 hours' : '24 hours';
+    document.getElementById('note-standard').textContent  = slides + ' slides · 72 hours';
+    document.getElementById('note-expedited').textContent = slides + ' slides · 24 hours';
   }
 
   document.querySelectorAll('#slide-tiers .tier').forEach(btn => {
@@ -515,7 +689,7 @@
     const tier  = document.querySelector('#slide-tiers .tier[aria-pressed="true"]');
     const slideLbl = tier ? tier.querySelector('.tier-label').textContent.trim() : ('up to ' + selectedSlides);
     const qs = new URLSearchParams({ slides: selectedSlides, slideLbl, speed, hours, total });
-    window.location.href = '/onboarding/onboarding.html?' + qs.toString();
+    openOnboarding('/onboarding/onboarding.html?' + qs.toString() + '&embed=1');
   }
 
   // Sticky slide selector — show only when no slide selected yet AND step1 scrolled out
@@ -613,6 +787,7 @@
   const owTotal = owSlides.length;
 
   function owRender() {
+    if (!owTotal) return; // Our work section removed — nothing to render
     const viewport = document.getElementById('ourwork-viewport');
     const slideW = viewport.offsetWidth * 0.6; // 60% of viewport
     const offset = (viewport.offsetWidth / 2) - (slideW / 2) - owIndex * (slideW + 20);
@@ -650,9 +825,90 @@
       hours: 0,
       total: amount
     });
-    window.location.href = '/onboarding/onboarding.html?' + qs.toString();
+    openOnboarding('/onboarding/onboarding.html?' + qs.toString() + '&embed=1');
   }
+
+  // ── Inline onboarding overlay ──────────────────────────────────
+  function openOnboarding(url) {
+    const ov = document.getElementById('ob-overlay');
+    const fr = document.getElementById('ob-frame');
+    fr.src = url;
+    ov.classList.add('show');
+    ov.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('ob-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeOnboarding() {
+    const ov = document.getElementById('ob-overlay');
+    const fr = document.getElementById('ob-frame');
+    ov.classList.remove('show');
+    ov.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('ob-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { if (!ov.classList.contains('show')) fr.src = 'about:blank'; }, 300);
+  }
+  window.addEventListener('message', e => { if (e.data === 'ob-close') closeOnboarding(); });
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('ob-overlay').classList.contains('show')) closeOnboarding();
+  });
+
+  /* Testimonials pinned horizontal scroll — vertical scroll moves cards right-to-left, then releases */
+  (function () {
+    const pin = document.getElementById('t-pin');
+    const track = document.getElementById('testimonials-track');
+    if (!pin || !track) return;
+    const sticky = pin.querySelector('.t-pin-sticky');
+    const mqMobile = window.matchMedia('(max-width:860px)');
+    const mqReduce = window.matchMedia('(prefers-reduced-motion:reduce)');
+    let maxX = 0;
+
+    function measure() {
+      pin.classList.remove('no-pin');
+      track.style.transform = '';
+      pin.style.height = '';
+      maxX = 0;
+      if (mqMobile.matches || mqReduce.matches) { pin.classList.add('no-pin'); return; } // fallback: native horizontal scroll
+      const vw = sticky.clientWidth;
+      maxX = Math.max(0, track.scrollWidth - vw);
+      if (maxX <= 0) { pin.classList.add('no-pin'); return; }  // cards fit, no pin needed
+      pin.style.height = (window.innerHeight + maxX) + 'px';   // extra scroll = horizontal travel
+      onScroll();
+    }
+
+    function onScroll() {
+      if (maxX <= 0) return;
+      const total = pin.offsetHeight - window.innerHeight;
+      if (total <= 0) return;
+      let p = (-pin.getBoundingClientRect().top) / total;
+      p = Math.min(1, Math.max(0, p));
+      track.style.transform = 'translateX(' + (-p * maxX) + 'px)';
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    measure();
+  })();
+
+  /* How It Works — subtle staggered bounce when scrolled into view */
+  (function () {
+    const hiw = document.querySelector('.hiw');
+    if (!hiw || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    hiw.classList.add('reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { hiw.classList.add('in'); io.disconnect(); }
+      });
+    }, { threshold: 0.3 });
+    io.observe(hiw);
+  })();
 </script>
+
+<!-- Inline onboarding overlay -->
+<div class="ob-overlay" id="ob-overlay" aria-hidden="true">
+  <iframe id="ob-frame" title="Onboarding" src="about:blank"></iframe>
+</div>
 
 <!-- Agentation -->
 <script type="importmap">
