@@ -54,7 +54,9 @@
   .sub{margin-top:16px;font-size:clamp(15px,1.3vw,17px);color:var(--ink2);line-height:1.55;max-width:520px;margin-left:auto;margin-right:auto}
 
   /* Slide count step */
-  .step-wrap{margin-top:clamp(36px,4vw,56px);margin-bottom:clamp(16px,2vw,24px)}
+  .step-wrap{margin-top:clamp(36px,4vw,56px);margin-bottom:clamp(16px,2vw,24px);animation:stepRise .5s cubic-bezier(.22,1,.36,1) .15s both}
+  @keyframes stepRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){.step-wrap{animation:none}}
   .step-label{font-size:18px;font-weight:700;color:var(--ink);text-align:center;letter-spacing:-.01em;margin-bottom:16px;will-change:transform,opacity}
   .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:720px;margin:0 auto;will-change:transform,opacity}
   .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:720px;margin:0 auto}
@@ -96,6 +98,9 @@
 
   /* Card inner — v5: p-6 = 24px, gap-4 = 16px */
   .card-inner{padding:24px;display:flex;flex-direction:column;gap:16px}
+  .card-tag{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:5px 12px;border-radius:999px;background:#fff;border:1px solid var(--border-brand);font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:-.01em;color:var(--navy)}
+  .card-tag i{font-size:13px}
+  .card-pro .card-tag{background:var(--navy);border-color:var(--navy);color:#fff}
   /* Pro card: pt-[45px] (floats higher), extra pb for extension */
   .card-pro .card-inner{padding-top:45px;padding-bottom:54px}
 
@@ -258,12 +263,13 @@
       <section class="card card-left">
         <div class="card-hint">For upcoming presentations that need a polished redesign within 3 days</div>
         <div class="card-inner">
+          <span class="card-tag"><i class="ph-bold ph-clock"></i>72 hours</span>
           <img class="card-illus" src="illus-standard.png" alt="">
           <div class="card-head">
             <h3 class="card-name">Standard</h3>
             <div class="card-price">
               <div class="price-amt"><span class="price-usd">$</span><span id="price-standard">750</span></div>
-              <div class="price-sub" id="note-standard">One-time</div>
+              <div class="price-sub" id="note-standard">72 hours</div>
             </div>
           </div>
           <div class="cta-wrap">
@@ -282,12 +288,13 @@
       <section class="card-pro">
         <div class="card-hint">For urgent decks. Your designer starts within 2 hours of payment</div>
         <div class="card-inner">
+          <span class="card-tag"><i class="ph-bold ph-clock"></i>24 hours</span>
           <img class="card-illus" src="illus-expedited.png" alt="">
           <div class="card-head">
             <h3 class="card-name">Expedited</h3>
             <div class="card-price">
               <div class="price-amt"><span class="price-usd">$</span><span id="price-expedited">1500</span></div>
-              <div class="price-sub" id="note-expedited">One-time</div>
+              <div class="price-sub" id="note-expedited">24 hours</div>
             </div>
           </div>
           <div class="cta-wrap">
@@ -307,6 +314,7 @@
       <section class="card card-right">
         <div class="card-hint">For high-stakes pitches that need strategic narrative + visual design</div>
         <div class="card-inner">
+          <span class="card-tag"><i class="ph-bold ph-clock"></i>5 days</span>
           <img class="card-illus" src="illus-sprint.png" alt="">
           <div class="card-head">
             <h3 class="card-name">Strategy Sprint</h3>
