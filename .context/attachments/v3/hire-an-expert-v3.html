@@ -190,6 +190,21 @@
   @keyframes hiwBounce{0%{opacity:0;transform:translateY(22px)}60%{opacity:1;transform:translateY(-6px)}100%{opacity:1;transform:translateY(0)}}
   @media (prefers-reduced-motion:reduce){.hiw.reveal .hiw-card{opacity:1}.hiw.reveal.in .hiw-card{animation:none}}
   @media (max-width:760px){.hiw-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
+  /* Use cases — dark full-bleed band, DS icons */
+  .uc{background:#0A1925;color:#fff;padding:clamp(64px,8vw,112px) 0}
+  .uc-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+  .uc-head{text-align:center;max-width:760px;margin:0 auto clamp(48px,6vw,80px)}
+  .uc-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin:0 0 18px}
+  .uc-title{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(24px,2.8vw,38px);letter-spacing:-.02em;line-height:1.1;color:#fff;margin:0;text-wrap:balance}
+  .uc-title em{font-style:italic}
+  .uc-sub{font-family:var(--font);font-size:clamp(15px,1.3vw,17px);line-height:1.55;color:rgba(255,255,255,.6);margin:18px auto 0;max-width:520px}
+  .uc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(36px,4.5vw,64px) clamp(32px,4vw,56px)}
+  .uc-ico{width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:grid;place-items:center;margin-bottom:22px}
+  .uc-ico i{font-size:24px;color:#fff}
+  .uc-item h3{font-family:var(--font);font-size:clamp(17px,1.4vw,20px);font-weight:600;letter-spacing:-.01em;color:#fff;margin:0 0 10px}
+  .uc-item p{font-family:var(--font);font-size:14px;line-height:1.6;color:rgba(255,255,255,.6);margin:0;max-width:34ch}
+  @media (max-width:860px){.uc-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.uc-grid{grid-template-columns:1fr}}
   .tcard{flex:0 0 auto;width:var(--tw);scroll-snap-align:center;display:flex;gap:40px;align-items:center;padding:48px;min-height:min(540px,66vh);box-sizing:border-box;background:#fff;border:1px solid rgba(11,15,20,.2);border-radius:6px;overflow:hidden}
   .tcard-body{flex:0 0 360px;display:flex;flex-direction:column;justify-content:center;gap:30px}
   .tcard-quote{font-family:'Hedvig Letters Serif',Georgia,serif;font-style:normal;font-weight:400;font-size:24px;line-height:1.5;color:var(--ink)}
@@ -519,6 +534,25 @@
         <h3 class="hiw-ctitle">Delivered on deadline</h3>
         <p class="hiw-ctext">Get a polished, presentation-ready deck back within your chosen turnaround: 24 hours, 72 hours, or a 5-day sprint.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Use cases — dark band, channel-tailored -->
+<section class="uc">
+  <div class="uc-inner">
+    <div class="uc-head">
+      <p class="uc-eyebrow">Channel-tailored</p>
+      <h2 class="uc-title">Designed to do more than <em>look good</em></h2>
+      <p class="uc-sub">Our decks don't just impress. All kinds of teams use them to align stakeholders, sell dreams, drive action, and support real outcomes.</p>
+    </div>
+    <div class="uc-grid">
+      <div class="uc-item"><div class="uc-ico"><i class="ph ph-megaphone"></i></div><h3>Internal comms</h3><p>Keeping your team aligned with executive updates, all-hands, launches and changes.</p></div>
+      <div class="uc-item"><div class="uc-ico"><i class="ph ph-currency-circle-dollar"></i></div><h3>Sales</h3><p>Sell the vision with pitch decks, proposals, and sales enablement.</p></div>
+      <div class="uc-item"><div class="uc-ico"><i class="ph ph-cards"></i></div><h3>Marketing</h3><p>Get stakeholder buy-in with campaign decks and quarterly planning.</p></div>
+      <div class="uc-item"><div class="uc-ico"><i class="ph ph-microphone-stage"></i></div><h3>Events</h3><p>Grab the attention of a fresh audience with keynotes, conference slides, and webinars.</p></div>
+      <div class="uc-item"><div class="uc-ico"><i class="ph ph-trend-up"></i></div><h3>Investor relations</h3><p>Inspire confidence with fundraising, board, and shareholder presentations.</p></div>
+      <div class="uc-item"><div class="uc-ico"><i class="ph ph-file-plus"></i></div><h3>And anywhere else</h3><p>Any topic and length, with a wide range of tools to match your team's preferences.</p></div>
     </div>
   </div>
 </section>
