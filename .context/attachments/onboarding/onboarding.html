@@ -256,11 +256,10 @@
           <div class="dz-icon"><i class="ph-bold ph-upload-simple"></i></div>
           <div class="dz-ttl">Drag &amp; drop your deck here</div>
           <div class="dz-sub">or click to browse</div>
-          <div class="dz-fmt">.PPTX · .PDF · .KEY · Google Slides URL</div>
-          <input type="file" id="deckinput" accept=".pptx,.pdf,.key,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf">
+          <div class="dz-fmt">.PPTX · .PDF · .KEY · .ZIP · one file only</div>
+          <input type="file" id="deckinput" accept=".pptx,.pdf,.key,.zip,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf,application/zip,application/x-zip-compressed">
         </div>
         <div id="deckfile"></div>
-        <div id="count-result"></div>
         <div id="overage"></div>
       </div>
 
@@ -456,7 +455,9 @@
     dz.addEventListener('drop', ev => {
       ev.preventDefault();
       if (ev.dataTransfer.files.length){
-        inp.files = ev.dataTransfer.files;
+        const dt = new DataTransfer();   // keep only the first file (single upload)
+        dt.items.add(ev.dataTransfer.files[0]);
+        inp.files = dt.files;
         renderFile(inp.files[0]);
       }
     });
@@ -589,7 +590,7 @@
   // On overage vs the user's selected tier cap, offers two paths:
   //   (a) Summarize to fit (free)
   //   (b) Pay for extra slides (+$X per extra)
-  const $countResult = document.getElementById('count-result');
+  const $countResult = document.getElementById('count-result') || document.createElement('div'); // count-result box removed; writes go to a detached node (overage UI still shown)
   const $overage     = document.getElementById('overage');
   const $deckInput   = document.getElementById('deckinput');
 
