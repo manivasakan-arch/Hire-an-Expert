@@ -235,7 +235,7 @@
         <div class="step" data-step="4"><div class="step-dot"><span>4</span></div><div class="step-lbl">Done</div></div>
       </div>
     </div>
-    <button class="close-x" aria-label="Close" onclick="window.close()"><i class="ph ph-x"></i></button>
+    <button class="close-x" aria-label="Close" onclick="if(window.parent!==window){parent.postMessage('ob-close','*')}else{window.close()}"><i class="ph ph-x"></i></button>
   </div>
 </header>
 

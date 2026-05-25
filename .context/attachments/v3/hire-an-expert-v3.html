@@ -102,6 +102,9 @@
   .card-tag i{font-size:13px;color:var(--ink3)}
   .card-pro .card-tag{background:rgba(22,163,74,.10);border-color:rgba(22,163,74,.26);color:#0f7a37}
   .card-pro .card-tag i{color:var(--success)}
+  .ob-overlay{position:fixed;inset:0;z-index:100;background:#fff;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease}
+  .ob-overlay.show{opacity:1;visibility:visible}
+  .ob-overlay iframe{width:100%;height:100%;border:0;display:block}
   /* Pro card: pt-[45px] (floats higher), extra pb for extension */
   .card-pro .card-inner{padding-top:45px;padding-bottom:54px}
 
@@ -516,7 +519,7 @@
     const tier  = document.querySelector('#slide-tiers .tier[aria-pressed="true"]');
     const slideLbl = tier ? tier.querySelector('.tier-label').textContent.trim() : ('up to ' + selectedSlides);
     const qs = new URLSearchParams({ slides: selectedSlides, slideLbl, speed, hours, total });
-    window.location.href = '/onboarding/onboarding.html?' + qs.toString();
+    openOnboarding('/onboarding/onboarding.html?' + qs.toString() + '&embed=1');
   }
 
   // Sticky slide selector — show only when no slide selected yet AND step1 scrolled out
@@ -651,9 +654,36 @@
       hours: 0,
       total: amount
     });
-    window.location.href = '/onboarding/onboarding.html?' + qs.toString();
+    openOnboarding('/onboarding/onboarding.html?' + qs.toString() + '&embed=1');
   }
+
+  // ── Inline onboarding overlay ──────────────────────────────────
+  function openOnboarding(url) {
+    const ov = document.getElementById('ob-overlay');
+    const fr = document.getElementById('ob-frame');
+    fr.src = url;
+    ov.classList.add('show');
+    ov.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeOnboarding() {
+    const ov = document.getElementById('ob-overlay');
+    const fr = document.getElementById('ob-frame');
+    ov.classList.remove('show');
+    ov.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTimeout(() => { if (!ov.classList.contains('show')) fr.src = 'about:blank'; }, 300);
+  }
+  window.addEventListener('message', e => { if (e.data === 'ob-close') closeOnboarding(); });
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('ob-overlay').classList.contains('show')) closeOnboarding();
+  });
 </script>
+
+<!-- Inline onboarding overlay -->
+<div class="ob-overlay" id="ob-overlay" aria-hidden="true">
+  <iframe id="ob-frame" title="Onboarding" src="about:blank"></iframe>
+</div>
 
 <!-- Agentation -->
 <script type="importmap">
