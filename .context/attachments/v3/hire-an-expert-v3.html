@@ -225,14 +225,25 @@
 
   /* ── FAQ ───────────────────────────────────────────────────── */
   .faq{margin-top:clamp(48px,5vw,72px)}
-  .faq-title{font-size:clamp(20px,2vw,26px);font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:20px}
-  .faq-item{border-bottom:1px solid rgba(26,26,26,.10)}
-  .faq-q{width:100%;background:none;border:none;padding:18px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:var(--font);font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
-  .faq-q i{font-size:18px;color:var(--ink2);flex:0 0 auto;transition:transform .2s ease}
-  .faq-item.open .faq-q i{transform:rotate(180deg)}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
-  .faq-item.open .faq-a{max-height:200px;padding-bottom:16px}
-  .faq-a p{font-size:14px;color:var(--ink2);line-height:1.65}
+  .faq-head{margin-bottom:clamp(36px,5vw,56px)}
+  .faq-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 14px}
+  .faq-title{font-family:var(--font);font-size:clamp(30px,4.4vw,54px);font-weight:800;letter-spacing:-.03em;line-height:1.04;color:var(--ink);margin:0}
+  .faq-title em{font-style:italic;font-weight:600}
+  .faq-cols{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(40px,5vw,80px)}
+  .faq-col{display:flex;flex-direction:column}
+  .faq-item{border-bottom:1px solid rgba(26,26,26,.12)}
+  .faq-q{width:100%;background:none;border:none;padding:22px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;font-family:var(--font);font-size:clamp(15px,1.2vw,17px);font-weight:500;color:var(--ink);cursor:pointer;text-align:left;line-height:1.4}
+  .faq-icon{position:relative;flex:0 0 auto;width:18px;height:18px;margin-top:2px}
+  .faq-icon::before,.faq-icon::after{content:"";position:absolute;background:var(--ink);transition:transform .25s ease}
+  .faq-icon::before{top:50%;left:0;width:100%;height:1.5px;transform:translateY(-50%)}
+  .faq-icon::after{left:50%;top:0;width:1.5px;height:100%;transform:translateX(-50%)}
+  .faq-item.open .faq-icon::after{transform:translateX(-50%) scaleY(0)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease}
+  .faq-item.open .faq-a{max-height:520px;padding-bottom:22px}
+  .faq-a p{font-size:14px;color:var(--ink2);line-height:1.65;margin:0}
+  .faq-a ul{margin:8px 0 0;padding-left:18px}
+  .faq-a li{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:5px}
+  @media (max-width:760px){.faq-cols{grid-template-columns:1fr;column-gap:0}}
 
   /* Sticky footer */
   .site-footer{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 -1px 0 rgba(0,0,0,.06);z-index:50}
@@ -458,31 +469,71 @@
 <div style="max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(48px,5vw,72px)">
   <div style="height:1px;background:rgba(26,26,26,.09);margin-bottom:clamp(40px,5vw,64px)"></div>
   <div class="faq">
-    <h2 class="faq-title">Frequently asked questions</h2>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What do I need to send you?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Just your existing presentation file — PowerPoint, PDF, Google Slides link, or Keynote. We handle the rest. You can add brand guidelines, reference decks, and style preferences in the onboarding step after checkout.</p></div>
+    <div class="faq-head">
+      <p class="faq-eyebrow">FAQs</p>
+      <h2 class="faq-title">Frequently asked <em>questions</em></h2>
     </div>
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">How does the 24-hour turnaround work?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>A designer is assigned within 2 hours of your payment. Work runs through the night if needed. You receive the finished deck in your inbox within 24 hours, ready to present.</p></div>
-    </div>
+    <div class="faq-cols">
+      <div class="faq-col">
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Is my deck kept confidential?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Yes. We are SOC 2 Type II certified and GDPR compliant. All projects are covered by a standard NDA. Your files are never shared or used for any purpose outside your project.</p></div>
-    </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>How long does it take to redesign a presentation?</span><span class="faq-icon"></span></button>
+          <div class="faq-a">
+            <p>We offer two flexible turnaround options to meet your needs:</p>
+            <ul>
+              <li><b>Express 24-hour delivery:</b> perfect for urgent presentations when you need a quick turnaround.</li>
+              <li><b>Standard 72-hour delivery:</b> our most popular option, allowing extra time for detailed design work.</li>
+            </ul>
+          </div>
+        </div>
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">What if I'm not happy with the result?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Every order includes 1 round of revisions. If you are still not satisfied after revisions, contact us. We will make it right or issue a full refund.</p></div>
-    </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>What file formats do you accept?</span><span class="faq-icon"></span></button>
+          <div class="faq-a"><p>We primarily work with PowerPoint presentations, but we can also handle other common presentation formats. You can upload your files directly through our secure platform.</p></div>
+        </div>
 
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I order more than 40 slides?<i class="ph ph-caret-down"></i></button>
-      <div class="faq-a"><p>Yes. Select the closest tier and any slides beyond 25 are billed at a small per-slide rate (shown at checkout). For very large decks or recurring work, reach out to discuss a custom arrangement.</p></div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>How does the process work?</span><span class="faq-icon"></span></button>
+          <div class="faq-a">
+            <p>The process involves three simple steps:</p>
+            <ul>
+              <li>Upload your presentation and complete payment.</li>
+              <li>Our design team develops your presentation with professional visuals.</li>
+              <li>You receive your stunning, redesigned presentation.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Do I maintain ownership rights to my presentation?</span><span class="faq-icon"></span></button>
+          <div class="faq-a"><p>Yes, you retain full ownership rights to your presentation. We respect your intellectual property and content privacy.</p></div>
+        </div>
+
+      </div>
+      <div class="faq-col">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Can I request revisions?</span><span class="faq-icon"></span></button>
+          <div class="faq-a"><p>Yes, we offer one revision option to ensure you're completely satisfied with the final design. You can communicate any changes needed through email.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>How much does the service cost?</span><span class="faq-icon"></span></button>
+          <div class="faq-a"><p>Pricing varies based on the presentation length, complexity, and turnaround time selected. You'll get a quote before proceeding with the order, and we maintain a no-hidden-fees policy.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Is my content kept confidential?</span><span class="faq-icon"></span></button>
+          <div class="faq-a"><p>Yes, we maintain strict content privacy policies to protect your business information and presentation content throughout the design process.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)"><span>Can you redesign presentations in languages other than English?</span><span class="faq-icon"></span></button>
+          <div class="faq-a"><p>Yes, we can work with presentations in multiple languages. Our design team can maintain your content while enhancing the visual elements, regardless of the language.</p></div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
