@@ -289,6 +289,15 @@
   .stat-num{font-family:var(--font);font-size:clamp(32px,3.4vw,48px);font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--ink)}
   .stat-label{font-family:var(--font);font-size:clamp(14px,1.2vw,16px);color:var(--ink2);margin-top:18px;padding-bottom:22px;border-bottom:1px solid rgba(26,26,26,.12)}
   @media (max-width:760px){.stats-grid{grid-template-columns:1fr;gap:28px}.stat{text-align:center}.stats-title{white-space:normal}}
+  @media (max-width:560px){
+    .stats{padding:clamp(32px,8vw,48px) 0 0}
+    .stats-title{font-size:clamp(22px,6.4vw,28px);max-width:18ch;margin:0 auto}
+    .stats-eyebrow{margin-bottom:12px}
+    .stats-grid{margin-top:clamp(28px,7vw,40px);gap:20px}
+    .stat-num{font-size:34px}
+    .stat-label{margin-top:10px;padding-bottom:18px}
+    .wrap-divider{margin:clamp(40px,9vw,56px) auto clamp(12px,3vw,20px)}
+  }
 
   /* Sticky footer */
   .site-footer{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 -1px 0 rgba(0,0,0,.06);z-index:50}
