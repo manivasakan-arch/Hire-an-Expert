@@ -891,18 +891,15 @@
   function sizeTray() {
     const tray = document.querySelector('.cards-tray');
     if (!tray) return;
-    const left = tray.querySelector('.card-left');
-    const all = tray.querySelectorAll('.card, .card-pro');
-    if (window.innerWidth <= 900) { if (left) left.style.height = ''; tray.style.height = ''; return; }
+    const sides = tray.querySelectorAll('.card');
+    if (window.innerWidth <= 900) { sides.forEach(c => c.style.height = ''); tray.style.height = ''; return; }
     const pro = tray.querySelector('.card-pro');
-    if (left) left.style.height = '';                         // reset before measuring
-    // tray fits the tallest card; Sprint (right) card keeps its natural, content-driven height
-    let maxH = 0;
-    all.forEach(c => { const h = c.getBoundingClientRect().height; if (h > maxH) maxH = h; });
+    sides.forEach(c => c.style.height = '');                 // reset to natural before measuring
     const proH = pro.getBoundingClientRect().height;
-    tray.style.height = (maxH + 21 + 8) + 'px';
-    // left card matches the center's floated extent (21px inset top + bottom)
-    if (left) left.style.height = (proH - 42) + 'px';
+    // tray = center card + 21px float + 8px breathing room
+    tray.style.height = (proH + 21 + 8) + 'px';
+    // center floats 21px past BOTH side cards, top and bottom: inset both sides 21+21
+    sides.forEach(c => c.style.height = (proH - 42) + 'px');
   }
   window.addEventListener('load', () => { owRender(); sizeTray(); });
   window.addEventListener('resize', () => { owRender(); sizeTray(); });
