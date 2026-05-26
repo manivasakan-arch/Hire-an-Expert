@@ -717,7 +717,7 @@
   // ── Populate confirmation summary ────────────────────────────────────────
   function addBusinessDays(start,n){const d=new Date(start);let a=0;while(a<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)a++;}return d;}
   const etaDate = addBusinessDays(new Date(), days).toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
-  document.getElementById('plan-note-cap').textContent = slideLbl + ' slides (up to ' + slidesCap + ')';
+  document.getElementById('plan-note-cap').textContent = 'up to ' + slidesCap + ' slides';
   document.getElementById('sum-slides').textContent = slideLbl + ' slides';
   document.getElementById('sum-delivery').textContent = (speed==='expedited' ? 'Expedited' : 'Standard') + ' · ' + hours + ' hours';
   document.getElementById('sum-eta').textContent = etaDate;
