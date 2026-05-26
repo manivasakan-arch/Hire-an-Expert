@@ -882,8 +882,8 @@
     const proH = pro.getBoundingClientRect().height;          // center card is the tallest by design
     // tray = center card height + 21px float + 8px breathing room
     tray.style.height = (proH + 21 + 8) + 'px';
-    // center floats up 21px (top:-21), so side cards = proH-21 makes all three bottoms align
-    sides.forEach(c => c.style.height = (proH - 21) + 'px');
+    // center floats 21px past the side cards at BOTH top and bottom: inset side cards 21+21
+    sides.forEach(c => c.style.height = (proH - 42) + 'px');
   }
   window.addEventListener('load', () => { owRender(); sizeTray(); });
   window.addEventListener('resize', () => { owRender(); sizeTray(); });
