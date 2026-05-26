@@ -259,7 +259,7 @@
 
       <div class="plan-note" id="plan-note">
         <i class="ph-bold ph-stack"></i>
-        <div class="ctxt">Your plan covers <b id="plan-note-cap">up to 20 slides</b>. Upload your deck below. If it runs over, we'll show your options.</div>
+        <div class="ctxt" id="plan-note-txt">Your plan covers <b>up to 20 slides</b>. Upload your deck below. If it runs over, we'll show your options.</div>
       </div>
 
       <div class="field">
@@ -717,7 +717,9 @@
   // ── Populate confirmation summary ────────────────────────────────────────
   function addBusinessDays(start,n){const d=new Date(start);let a=0;while(a<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)a++;}return d;}
   const etaDate = addBusinessDays(new Date(), days).toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
-  document.getElementById('plan-note-cap').textContent = 'up to ' + slidesCap + ' slides';
+  document.getElementById('plan-note-txt').innerHTML = speed === 'sprint'
+    ? 'Your plan covers a <b>5-day Strategy Sprint</b> with unlimited revisions. Upload your deck below to get started.'
+    : 'Your plan covers <b>up to ' + slidesCap + ' slides</b>. Upload your deck below. If it runs over, we\'ll show your options.';
   document.getElementById('sum-slides').textContent = slideLbl + ' slides';
   document.getElementById('sum-delivery').textContent = (speed==='expedited' ? 'Expedited' : 'Standard') + ' · ' + hours + ' hours';
   document.getElementById('sum-eta').textContent = etaDate;
