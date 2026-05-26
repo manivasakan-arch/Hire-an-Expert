@@ -259,7 +259,7 @@
 
       <div class="plan-note" id="plan-note">
         <i class="ph-bold ph-stack"></i>
-        <div class="ctxt" id="plan-note-txt">You're all set: <b>up to 20 slides</b>. If your deck runs over, we'll show your options.</div>
+        <div class="ctxt" id="plan-note-txt">You're all set: <b>up to 20 slides</b>.</div>
       </div>
 
       <div class="field">
@@ -719,7 +719,7 @@
   const etaDate = addBusinessDays(new Date(), days).toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
   document.getElementById('plan-note-txt').innerHTML = speed === 'sprint'
     ? 'You\'re booked for a <b>5-day Strategy Sprint</b> with unlimited revisions.'
-    : 'You\'re all set: <b>up to ' + slidesCap + ' slides</b>, redesigned in <b>' + hours + ' hours</b>. If your deck runs over, we\'ll show your options.';
+    : 'You\'re all set: <b>up to ' + slidesCap + ' slides</b>, redesigned in <b>' + hours + ' hours</b>.';
   document.getElementById('sum-slides').textContent = slideLbl + ' slides';
   document.getElementById('sum-delivery').textContent = (speed==='expedited' ? 'Expedited' : 'Standard') + ' · ' + hours + ' hours';
   document.getElementById('sum-eta').textContent = etaDate;
