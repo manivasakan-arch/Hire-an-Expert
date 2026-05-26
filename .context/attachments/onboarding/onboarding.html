@@ -718,8 +718,8 @@
   function addBusinessDays(start,n){const d=new Date(start);let a=0;while(a<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)a++;}return d;}
   const etaDate = addBusinessDays(new Date(), days).toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
   document.getElementById('plan-note-txt').innerHTML = speed === 'sprint'
-    ? 'Your plan covers a <b>5-day Strategy Sprint</b> with unlimited revisions. Upload your deck below to get started.'
-    : 'Your plan covers <b>up to ' + slidesCap + ' slides</b>, delivered in <b>' + hours + ' hours</b>. Upload your deck below. If it runs over, we\'ll show your options.';
+    ? 'You\'re booked for a <b>5-day Strategy Sprint</b> with unlimited revisions. Upload your deck below to get started.'
+    : 'You\'re all set: <b>up to ' + slidesCap + ' slides</b>, redesigned in <b>' + hours + ' hours</b>. Upload your deck below to begin. If it runs over, we\'ll show your options.';
   document.getElementById('sum-slides').textContent = slideLbl + ' slides';
   document.getElementById('sum-delivery').textContent = (speed==='expedited' ? 'Expedited' : 'Standard') + ' · ' + hours + ' hours';
   document.getElementById('sum-eta').textContent = etaDate;
