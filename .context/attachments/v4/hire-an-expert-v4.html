@@ -213,8 +213,8 @@
   @keyframes tlFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .tl-steps{display:flex;margin:0 auto;position:relative}
   .tl-steps::before{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:rgba(10,25,37,.14)}
-  .tl-steps::after{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(10,25,37,0) 12%,rgba(10,25,37,.55) 50%,rgba(10,25,37,0) 88%,transparent 100%);background-size:220% 100%;animation:tlFlow 3.4s linear infinite}
-  @keyframes tlFlow{0%{background-position:220% 0}100%{background-position:-220% 0}}
+  .tl-steps::after{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background-image:linear-gradient(90deg,transparent 0%,rgba(10,25,37,.5) 50%,transparent 100%);background-size:240px 100%;background-repeat:repeat-x;animation:tlFlow 2.8s linear infinite}
+  @keyframes tlFlow{from{background-position:0 0}to{background-position:240px 0}}
   @media (prefers-reduced-motion:reduce){.tl-steps::after{animation:none}}
   /* On panel activate: line draws left→right, nodes pop in sequence, last node glows */
   .tl-panel.active .tl-steps::before{transform-origin:left center;animation:tlDraw .7s cubic-bezier(.4,0,.2,1) both}
