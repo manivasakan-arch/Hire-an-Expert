@@ -412,8 +412,13 @@
   const total     = params.get('total')    || '750';
   const days      = speed === 'sprint' ? 5 : (hours === 24 ? 1 : 3);
 
-  // Per-extra-slide pricing (USD) — used when uploaded deck overflows tier cap
-  const EXTRA_PER_SLIDE = hours === 24 ? 50 : 40;
+  // ── Pricing engine (same logic as the landing page) ─────────────────────
+  // Standard: $599 base (first 10) + $20/slide (11–20) + $30/slide (21+)
+  // Expedited: Standard × 1.5, rounded up to nearest charm price ($X99)
+  function standardPrice(s){ let p = 599; if (s > 10) p += (Math.min(s,20) - 10) * 20; if (s > 20) p += (s - 20) * 30; return p; }
+  function charmUp(n){ return Math.ceil((n - 99) / 100) * 100 + 99; }
+  function expeditedPrice(s){ return charmUp(standardPrice(s) * 1.5); }
+  function priceFor(s){ return hours === 24 ? expeditedPrice(s) : standardPrice(s); }
 
   // ── Stepper navigation ────────────────────────────────────────────────────
   let step = 1;
@@ -638,7 +643,14 @@
   });
 
   function renderCount(count){
-    if (count <= slidesCap){
+    if (speed === 'sprint'){
+      $countResult.className = 'count-result ok';
+      $countResult.innerHTML =
+        '<i class="ph-bold ph-check-circle"></i><div class="ctxt">' +
+          '<div class="ctitle">' + count + ' slides detected</div>' +
+          'Your Strategy Sprint covers any deck size. You’re all set.' +
+        '</div>';
+    } else if (count <= slidesCap){
       $countResult.className = 'count-result ok';
       $countResult.innerHTML =
         '<i class="ph-bold ph-check-circle"></i><div class="ctxt">' +
@@ -647,7 +659,7 @@
         '</div>';
     } else {
       const over = count - slidesCap;
-      const extraCost = over * EXTRA_PER_SLIDE;
+      const extraCost = priceFor(count) - priceFor(slidesCap);  // same engine as landing page
       $countResult.className = 'count-result warn';
       $countResult.innerHTML =
         '<i class="ph-bold ph-warning-circle"></i><div class="ctxt">' +
@@ -669,7 +681,7 @@
             '<label class="overage-opt">' +
               '<input type="radio" name="overage" value="extras">' +
               '<div class="lbl"><b>Keep all ' + count + ' slides</b>' +
-                '<div class="sub">Add ' + over + ' extra slide' + (over===1?'':'s') + ' at $' + EXTRA_PER_SLIDE + '/slide (' + hours + 'h delivery).</div>' +
+                '<div class="sub">Adds ' + over + ' slide' + (over===1?'':'s') + ' at your ' + hours + 'h rate. New total: <b>$' + priceFor(count).toLocaleString('en-US') + '</b>.</div>' +
               '</div>' +
               '<div class="price">+$' + extraCost.toLocaleString('en-US') + '</div>' +
             '</label>' +
