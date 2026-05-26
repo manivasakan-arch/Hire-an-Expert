@@ -892,14 +892,19 @@
     const tray = document.querySelector('.cards-tray');
     if (!tray) return;
     const sides = tray.querySelectorAll('.card');
-    if (window.innerWidth <= 900) { sides.forEach(c => c.style.height = ''); tray.style.height = ''; return; }
     const pro = tray.querySelector('.card-pro');
+    if (window.innerWidth <= 900) { sides.forEach(c => c.style.height = ''); if (pro) pro.style.height = ''; tray.style.height = ''; return; }
     sides.forEach(c => c.style.height = '');                 // reset to natural before measuring
-    const proH = pro.getBoundingClientRect().height;
-    // tray = center card + 21px float + 8px breathing room
-    tray.style.height = (proH + 21 + 8) + 'px';
-    // center floats 21px past BOTH side cards, top and bottom: inset both sides 21+21
-    sides.forEach(c => c.style.height = (proH - 42) + 'px');
+    pro.style.height = '';
+    let sideNat = 0;
+    sides.forEach(c => { const h = c.getBoundingClientRect().height; if (h > sideNat) sideNat = h; });
+    const proNat = pro.getBoundingClientRect().height;
+    // center must be 42px taller than the tallest side so it pokes 21px past both sides, top + bottom.
+    // grow whichever card is short by adding empty space so all content fits.
+    const centerH = Math.max(proNat, sideNat + 42);
+    pro.style.height = centerH + 'px';
+    sides.forEach(c => c.style.height = (centerH - 42) + 'px');
+    tray.style.height = (centerH + 21 + 8) + 'px';
   }
   window.addEventListener('load', () => { owRender(); sizeTray(); });
   window.addEventListener('resize', () => { owRender(); sizeTray(); });
