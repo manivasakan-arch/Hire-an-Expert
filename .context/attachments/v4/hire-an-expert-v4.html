@@ -200,8 +200,8 @@
   .tl-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
   .tl-head{text-align:center;margin-bottom:clamp(28px,4vw,44px)}
   .tl-title{font-family:var(--font);font-weight:700;font-size:clamp(28px,2.8vw,36px);letter-spacing:-.025em;line-height:1.12;color:var(--ink);margin:0;text-wrap:balance}
-  .tl-tabs{display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:#f2f5f9;border:1px solid var(--border-soft);margin-top:clamp(20px,3vw,28px)}
-  .tl-tab{appearance:none;border:none;background:transparent;font-family:var(--font);font-size:14px;font-weight:600;color:var(--ink2);padding:9px 20px;border-radius:999px;cursor:pointer;transition:background .2s ease,color .2s ease;white-space:nowrap}
+  .tl-tabs{display:inline-flex;gap:4px;padding:4px;border-radius:10px;background:#f1f3f6;border:1px solid var(--border-soft);margin-top:clamp(20px,3vw,28px)}
+  .tl-tab{appearance:none;border:none;background:transparent;font-family:'Roboto Condensed',var(--font);font-size:15px;font-weight:600;letter-spacing:.01em;color:var(--ink2);padding:9px 22px;border-radius:7px;cursor:pointer;transition:background .2s ease,color .2s ease;white-space:nowrap}
   .tl-tab:hover{color:var(--ink)}
   .tl-tab.active{background:var(--navy);color:#fff;box-shadow:0 1px 3px rgba(10,25,37,.25)}
   .tl-panel{display:none}
@@ -212,6 +212,18 @@
   .tl-steps::after{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(37,99,235,0) 12%,rgba(37,99,235,.55) 50%,rgba(37,99,235,0) 88%,transparent 100%);background-size:220% 100%;animation:tlFlow 3.4s linear infinite}
   @keyframes tlFlow{0%{background-position:220% 0}100%{background-position:-220% 0}}
   @media (prefers-reduced-motion:reduce){.tl-steps::after{animation:none}}
+  /* On panel activate: line draws left→right, nodes pop in sequence, last node glows */
+  .tl-panel.active .tl-steps::before{transform-origin:left center;animation:tlDraw .7s cubic-bezier(.4,0,.2,1) both}
+  @keyframes tlDraw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .tl-panel.active .tl-ic{animation:tlPop .5s cubic-bezier(.34,1.56,.64,1) both}
+  @keyframes tlPop{0%{opacity:0;transform:scale(.5)}100%{opacity:1;transform:scale(1)}}
+  .tl-panel.active .tl-step:nth-child(1) .tl-ic{animation-delay:.15s}
+  .tl-panel.active .tl-step:nth-child(2) .tl-ic{animation-delay:.30s}
+  .tl-panel.active .tl-step:nth-child(3) .tl-ic{animation-delay:.45s}
+  .tl-panel.active .tl-step:nth-child(4) .tl-ic{animation-delay:.60s}
+  .tl-panel.active .tl-step:last-child .tl-ic{animation:tlPop .5s cubic-bezier(.34,1.56,.64,1) .75s both, tlGlow 2.4s ease-in-out 1.4s infinite}
+  @keyframes tlGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.4)}50%{box-shadow:0 0 0 7px rgba(37,99,235,0)}}
+  @media (prefers-reduced-motion:reduce){.tl-panel.active .tl-steps::before,.tl-panel.active .tl-ic{animation:none}}
   .tl-step{flex:1 1 0;text-align:center;padding:0 10px;position:relative}
   .tl-node{position:relative;z-index:1;height:48px;margin-bottom:16px;display:flex;justify-content:center}
   .tl-ic{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--navy);font-size:19px;border:1px solid var(--border-soft);box-shadow:0 1px 2px rgba(10,25,37,.06)}
@@ -342,7 +354,7 @@
   .cta-band-inner{max-width:680px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
   .cta-band-title{font-family:var(--font);font-weight:700;font-size:clamp(28px,3vw,36px);letter-spacing:-.025em;line-height:1.1;margin:0;text-wrap:balance}
   .cta-band-sub{font-family:var(--font);font-size:clamp(15px,1.4vw,18px);line-height:1.55;color:rgba(255,255,255,.72);margin:16px 0 0;max-width:480px}
-  .cta-band-btn{margin-top:30px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border:none;border-radius:999px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+  .cta-band-btn{margin-top:30px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border:1.5px solid transparent;border-radius:999px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
   .cta-band-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.28)}
   .cta-band-btn i{font-size:17px}
   /* CTA band swaps to a pay-now state once a slide count is picked */
@@ -351,6 +363,7 @@
   .cta-band.ready .cta-band-ready{display:flex;flex-direction:column;align-items:center;width:100%}
   .cta-band-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 14px}
   .cta-pay-row{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+  .cta-pay-row .cta-band-btn{margin-top:0;min-width:170px;justify-content:center}
   .cta-band-btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
   .cta-band-btn-ghost:hover{background:rgba(255,255,255,.1);box-shadow:none}
   .cta-band-btn .pay-amt{font-weight:700}
