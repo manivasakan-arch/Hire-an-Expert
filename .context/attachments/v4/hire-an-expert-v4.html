@@ -209,7 +209,7 @@
   @keyframes tlFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .tl-steps{display:flex;margin:0 auto;position:relative}
   .tl-steps::before{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:rgba(10,25,37,.14)}
-  .tl-steps::after{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(37,99,235,0) 12%,rgba(37,99,235,.55) 50%,rgba(37,99,235,0) 88%,transparent 100%);background-size:220% 100%;animation:tlFlow 3.4s linear infinite}
+  .tl-steps::after{content:"";position:absolute;top:24px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(10,25,37,0) 12%,rgba(10,25,37,.55) 50%,rgba(10,25,37,0) 88%,transparent 100%);background-size:220% 100%;animation:tlFlow 3.4s linear infinite}
   @keyframes tlFlow{0%{background-position:220% 0}100%{background-position:-220% 0}}
   @media (prefers-reduced-motion:reduce){.tl-steps::after{animation:none}}
   /* On panel activate: line draws left→right, nodes pop in sequence, last node glows */
@@ -222,7 +222,7 @@
   .tl-panel.active .tl-step:nth-child(3) .tl-ic{animation-delay:.45s}
   .tl-panel.active .tl-step:nth-child(4) .tl-ic{animation-delay:.60s}
   .tl-panel.active .tl-step:last-child .tl-ic{animation:tlPop .5s cubic-bezier(.34,1.56,.64,1) .75s both, tlGlow 2.4s ease-in-out 1.4s infinite}
-  @keyframes tlGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.4)}50%{box-shadow:0 0 0 7px rgba(37,99,235,0)}}
+  @keyframes tlGlow{0%,100%{box-shadow:0 0 0 0 rgba(10,25,37,.4)}50%{box-shadow:0 0 0 7px rgba(10,25,37,0)}}
   @media (prefers-reduced-motion:reduce){.tl-panel.active .tl-steps::before,.tl-panel.active .tl-ic{animation:none}}
   .tl-step{flex:1 1 0;text-align:center;padding:0 10px;position:relative}
   .tl-node{position:relative;z-index:1;height:48px;margin-bottom:16px;display:flex;justify-content:center}
