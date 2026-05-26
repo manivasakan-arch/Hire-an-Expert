@@ -29,9 +29,12 @@
     --shadow-card:0 1px 2px 0 rgba(0,0,0,.08),0 4px 10px 0 rgba(0,0,0,.06);
     --font:'Inter',system-ui,sans-serif;
     --cond:'Roboto Condensed',ui-monospace,monospace;
+    --gutter:clamp(20px,4vw,56px);
+    --space-section:clamp(56px,7vw,96px);
+    --footer-h:84px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:var(--font);background:linear-gradient(180deg,#d6e4ff 0,#e9f1ff 300px,#fff 560px);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:72px}
+  body{font-family:var(--font);background:linear-gradient(180deg,#d6e4ff 0,#e9f1ff 300px,#fff 560px);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:var(--footer-h)}
 
   /* Close button */
   .close-x{position:fixed;top:20px;right:24px;z-index:60;width:36px;height:36px;border-radius:999px;border:1px solid rgba(26,26,26,.2);background:#fff;display:grid;place-items:center;color:var(--ink);cursor:pointer;transition:.15s ease;font-family:inherit;padding:0}
@@ -40,7 +43,8 @@
   @media (max-width:640px){.close-x{top:10px;right:10px}}
 
   /* Page layout */
-  .wrap{max-width:1280px;margin:0 auto;padding:48px clamp(20px,4vw,56px) 8px}
+  .wrap{max-width:1280px;margin:0 auto;padding:48px var(--gutter) 8px}
+  .cards-wrap{padding-top:clamp(8px,2vw,20px)}
 
   /* Hero */
   .intro{display:flex;flex-direction:column}
@@ -174,7 +178,7 @@
     .t-pin .testimonials{transform:none!important;overflow-x:auto;-webkit-overflow-scrolling:touch}
   }
   /* How It Works — full-bleed cream band, 3 numbered steps */
-  .hiw{background:#f6f5f2;padding:clamp(56px,7vw,96px) 0;display:none}
+  .hiw{background:#f6f5f2;padding:var(--space-section) 0;display:none}
   .hiw-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
   .hiw-head{text-align:center;margin-bottom:clamp(32px,4vw,56px)}
   .hiw-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 16px}
@@ -196,7 +200,7 @@
   @media (prefers-reduced-motion:reduce){.hiw.reveal .hiw-card{opacity:1}.hiw.reveal.in .hiw-card{animation:none}}
   @media (max-width:760px){.hiw-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
   /* Timeline — tabbed (24h / 72h / 5-day), start-to-finish */
-  .tl{padding:clamp(48px,6vw,88px) 0;background:#fff}
+  .tl{padding:var(--space-section) 0;background:#fff}
   .tl-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
   .tl-head{text-align:center;margin-bottom:clamp(28px,4vw,44px)}
   .tl-title{font-family:var(--font);font-weight:700;font-size:clamp(28px,2.8vw,36px);letter-spacing:-.025em;line-height:1.12;color:var(--ink);margin:0;text-wrap:balance}
@@ -240,7 +244,7 @@
     .tl-tab{flex:1;padding:9px 8px;font-size:13px}
   }
   /* Use cases — dark full-bleed band, DS icons */
-  .uc{background:#0A1925;color:#fff;padding:clamp(64px,8vw,112px) 0}
+  .uc{background:#0A1925;color:#fff;padding:var(--space-section) 0}
   .uc-inner{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
   .uc-head{text-align:center;max-width:760px;margin:0 auto clamp(48px,6vw,80px)}
   .uc-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin:0 0 18px}
@@ -304,7 +308,8 @@
   .ourwork-btn:disabled{opacity:.3;cursor:default}
 
   /* ── FAQ ───────────────────────────────────────────────────── */
-  .faq{margin-top:clamp(48px,5vw,72px)}
+  .faq-wrap{max-width:1280px;margin:0 auto;padding:0 var(--gutter)}
+  .faq{margin-top:0}
   .faq-head{margin-bottom:clamp(36px,5vw,56px);text-align:center}
   .faq-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 14px}
   .faq-title{font-family:var(--font);font-size:clamp(28px,2.8vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--ink);margin:0;text-wrap:balance}
@@ -321,7 +326,7 @@
   .faq-item.open .faq-icon .ph-plus{opacity:0;transform:rotate(90deg)}
   .faq-item.open .faq-icon .ph-minus{opacity:1;transform:rotate(0)}
   .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease}
-  .faq-item.open .faq-a{max-height:520px;padding-bottom:22px}
+  .faq-item.open .faq-a{max-height:600px;padding-bottom:22px}
   .faq-a p{font-size:14px;color:var(--ink2);line-height:1.65;margin:0}
   .faq-a ul{margin:8px 0 0;padding-left:18px}
   .faq-a li{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:5px}
@@ -350,13 +355,14 @@
   }
 
   /* Get-started CTA band */
-  .cta-band{background:linear-gradient(rgba(8,16,40,.28),rgba(8,16,40,.28)),url(cta-bg-2.png) center/cover no-repeat,var(--navy);color:#fff;padding:clamp(56px,8vw,104px) clamp(20px,4vw,56px);text-align:center}
+  .cta-band{background:linear-gradient(rgba(8,16,40,.28),rgba(8,16,40,.28)),url(cta-bg-2.png) center/cover no-repeat,var(--navy);color:#fff;padding:var(--space-section) var(--gutter);text-align:center}
   .cta-band-inner{max-width:680px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
   .cta-band-title{font-family:var(--font);font-weight:700;font-size:clamp(28px,3vw,36px);letter-spacing:-.025em;line-height:1.1;margin:0;text-wrap:balance}
   .cta-band-sub{font-family:var(--font);font-size:clamp(15px,1.4vw,18px);line-height:1.55;color:rgba(255,255,255,.72);margin:16px 0 0;max-width:480px}
   .cta-band-btn{margin-top:30px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border:1.5px solid transparent;border-radius:6px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
   .cta-band-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.28)}
   .cta-band-btn i{font-size:17px}
+  .cta-band-default{display:flex;flex-direction:column;align-items:center;width:100%}
   /* CTA band swaps to a pay-now state once a slide count is picked */
   .cta-band .cta-band-ready{display:none}
   .cta-band.ready .cta-band-default{display:none}
@@ -382,7 +388,7 @@
   .sp-fade-l{left:0;width:120px;background:linear-gradient(to right,rgba(255,255,255,.9),rgba(255,255,255,0))}
   .sp-fade-r{right:0;width:96px;background:linear-gradient(to left,rgba(255,255,255,.9),rgba(255,255,255,0))}
   @keyframes sp-marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-  @media (max-width:640px){.site-footer .sf-row{flex-direction:column;gap:4px}.sp-wrap{width:100%;height:40px}}
+  @media (max-width:640px){.site-footer .sf-row{flex-direction:column;gap:4px}.sp-wrap{width:100%;height:40px}body{padding-bottom:108px}}
 </style>
 </head>
 <body>
@@ -415,7 +421,7 @@
 </div>
 
 <!-- Step 2: 3-card options -->
-<div class="wrap" style="padding-top:clamp(8px,2vw,20px)">
+<div class="wrap cards-wrap">
   <div class="cards-section" id="cards-section">
 
     <div class="cards-tray">
@@ -632,7 +638,7 @@
 </section>
 
 <!-- FAQ -->
-<div style="max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(48px,5vw,72px)">
+<div class="faq-wrap">
   <div class="faq">
     <div class="faq-head">
       <h2 class="faq-title">Frequently asked <em>questions</em></h2>
@@ -867,13 +873,17 @@
 
   // Size cards-tray to tallest absolute card
   function sizeTray() {
-    if (window.innerWidth <= 900) return;
     const tray = document.querySelector('.cards-tray');
-    const cards = tray.querySelectorAll('.card, .card-pro');
-    let max = 0;
-    cards.forEach(c => { const h = c.getBoundingClientRect().height; if (h > max) max = h; });
-    // tallest card + 21px float offset + 8px breathing room
-    tray.style.height = (max + 21 + 8) + 'px';
+    if (!tray) return;
+    const sides = tray.querySelectorAll('.card');
+    if (window.innerWidth <= 900) { sides.forEach(c => c.style.height = ''); tray.style.height = ''; return; }
+    const pro = tray.querySelector('.card-pro');
+    sides.forEach(c => c.style.height = '');                 // reset to natural before measuring
+    const proH = pro.getBoundingClientRect().height;          // center card is the tallest by design
+    // tray = center card height + 21px float + 8px breathing room
+    tray.style.height = (proH + 21 + 8) + 'px';
+    // center floats up 21px (top:-21), so side cards = proH-21 makes all three bottoms align
+    sides.forEach(c => c.style.height = (proH - 21) + 'px');
   }
   window.addEventListener('load', () => { owRender(); sizeTray(); });
   window.addEventListener('resize', () => { owRender(); sizeTray(); });
