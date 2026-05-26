@@ -512,8 +512,8 @@
             <div class="sr"><i></i><b>Day 5</b><span>Delivery &amp; handoff</span></div>
           </div>
           <ul class="feat-list">
-            <li class="feat-item"><i class="ph ph-check-circle"></i><span><b>Unlimited</b> revisions</span></li>
-            <li class="feat-item"><i class="ph ph-check-circle"></i><span>Dedicated project lead</span></li>
+            <li class="feat-item"><i class="ph ph-arrow-counter-clockwise"></i><span><b>Unlimited</b> revisions</span></li>
+            <li class="feat-item"><i class="ph ph-user-circle"></i><span>Dedicated project lead</span></li>
           </ul>
         </div>
       </section>
@@ -891,15 +891,18 @@
   function sizeTray() {
     const tray = document.querySelector('.cards-tray');
     if (!tray) return;
-    const sides = tray.querySelectorAll('.card');
-    if (window.innerWidth <= 900) { sides.forEach(c => c.style.height = ''); tray.style.height = ''; return; }
+    const left = tray.querySelector('.card-left');
+    const all = tray.querySelectorAll('.card, .card-pro');
+    if (window.innerWidth <= 900) { if (left) left.style.height = ''; tray.style.height = ''; return; }
     const pro = tray.querySelector('.card-pro');
-    sides.forEach(c => c.style.height = '');                 // reset to natural before measuring
-    const proH = pro.getBoundingClientRect().height;          // center card is the tallest by design
-    // tray = center card height + 21px float + 8px breathing room
-    tray.style.height = (proH + 21 + 8) + 'px';
-    // center floats 21px past the side cards at BOTH top and bottom: inset side cards 21+21
-    sides.forEach(c => c.style.height = (proH - 42) + 'px');
+    if (left) left.style.height = '';                         // reset before measuring
+    // tray fits the tallest card; Sprint (right) card keeps its natural, content-driven height
+    let maxH = 0;
+    all.forEach(c => { const h = c.getBoundingClientRect().height; if (h > maxH) maxH = h; });
+    const proH = pro.getBoundingClientRect().height;
+    tray.style.height = (maxH + 21 + 8) + 'px';
+    // left card matches the center's floated extent (21px inset top + bottom)
+    if (left) left.style.height = (proH - 42) + 'px';
   }
   window.addEventListener('load', () => { owRender(); sizeTray(); });
   window.addEventListener('resize', () => { owRender(); sizeTray(); });
