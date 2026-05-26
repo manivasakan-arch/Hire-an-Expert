@@ -94,7 +94,7 @@
     .cards-section.visible{max-height:2600px}
   }
   /* Tray height = tallest card (center card's natural height + 21px float) */
-  @media (min-width:901px){.cards-tray{display:block;min-height:420px}}
+  @media (min-width:901px){.cards-tray{display:block;min-height:420px}.card .card-inner{justify-content:center}}
 
   /* Left card — left radii only */
   .card{position:absolute;background:#fff;border:1px solid var(--border)}
@@ -440,7 +440,7 @@
             </div>
           </div>
           <div class="cta-wrap">
-            <button class="cta cta-outline" onclick="pay(72)">Get started</button>
+            <button class="cta cta-outline" onclick="pay(72)">Buy Now</button>
           </div>
           <ul class="feat-list">
             <li class="feat-item"><i class="ph ph-clock"></i><span><b>72-hour</b> turnaround, our most popular plan</span></li>
@@ -465,7 +465,7 @@
             </div>
           </div>
           <div class="cta-wrap">
-            <button class="cta" onclick="pay(24)">Get started</button>
+            <button class="cta" onclick="pay(24)">Buy Now</button>
           </div>
           <ul class="feat-list">
             <li class="feat-item"><i class="ph ph-rocket-launch"></i><span><b>24-hour delivery.</b> Work starts immediately.</span></li>
