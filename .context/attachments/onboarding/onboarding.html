@@ -205,6 +205,12 @@
   .prefill-banner .undo{appearance:none;background:none;border:none;color:var(--ink2);text-decoration:underline;cursor:pointer;font-size:12.5px;font-family:inherit;padding:0}
   .prefill-banner .undo:hover{color:var(--ink)}
 
+  /* Paid-plan note (Step 1) */
+  .plan-note{display:flex;align-items:center;gap:10px;background:var(--selected);border:1px solid var(--border-soft);color:var(--ink);padding:11px 14px;border-radius:8px;font-size:13.5px;margin-bottom:20px}
+  .plan-note i{font-size:17px;color:var(--navy);flex:0 0 auto}
+  .plan-note b{font-weight:600}
+  .plan-note .ctxt{flex:1;min-width:0}
+
   .url-row{position:relative}
   .url-row .spin{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--navy);border-radius:999px;animation:spin .8s linear infinite;display:none}
   .url-row.is-loading .spin{display:block}
@@ -249,6 +255,11 @@
       <div class="panel-head">
         <h1>Upload your deck</h1>
         <p>Send us what you have today. We'll redesign every slide.</p>
+      </div>
+
+      <div class="plan-note" id="plan-note">
+        <i class="ph-bold ph-stack"></i>
+        <div class="ctxt">Your plan covers <b id="plan-note-cap">up to 20 slides</b>. Upload your deck below. If it runs over, we'll show your options.</div>
       </div>
 
       <div class="field">
@@ -706,6 +717,7 @@
   // ── Populate confirmation summary ────────────────────────────────────────
   function addBusinessDays(start,n){const d=new Date(start);let a=0;while(a<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)a++;}return d;}
   const etaDate = addBusinessDays(new Date(), days).toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+  document.getElementById('plan-note-cap').textContent = slideLbl + ' slides (up to ' + slidesCap + ')';
   document.getElementById('sum-slides').textContent = slideLbl + ' slides';
   document.getElementById('sum-delivery').textContent = (speed==='expedited' ? 'Expedited' : 'Standard') + ' · ' + hours + ' hours';
   document.getElementById('sum-eta').textContent = etaDate;
