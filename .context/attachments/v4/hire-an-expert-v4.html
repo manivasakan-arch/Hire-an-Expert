@@ -154,6 +154,14 @@
   .feat-list{margin-top:20px;display:flex;flex-direction:column;gap:16px}
   .feat-item{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--ink2);line-height:1.43}
   .feat-item i{font-size:20px;color:var(--ink2);flex:0 0 auto;margin-top:1px}
+  /* Strategy Sprint vertical day rail */
+  .sprint-rail{display:flex;flex-direction:column;gap:18px;position:relative;margin-top:20px;padding-left:2px}
+  .sprint-rail::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--border-soft)}
+  .sprint-rail .sr{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+  .sprint-rail .sr i{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--border-brand);flex:0 0 auto}
+  .sprint-rail .sr:last-child i{background:var(--navy);border-color:var(--navy)}
+  .sprint-rail .sr b{font-family:var(--cond);font-size:12px;font-weight:700;color:var(--navy);min-width:42px;flex:0 0 auto}
+  .sprint-rail .sr span{font-size:14px;color:var(--ink2);line-height:1.35}
   .feat-item b{color:var(--ink);font-weight:600}
 
   /* Trust row */
@@ -496,11 +504,16 @@
           <div class="cta-wrap">
             <button class="cta cta-outline" onclick="payFixed(10000)">Buy Now</button>
           </div>
+          <div class="sprint-rail">
+            <div class="sr"><i></i><b>Day 1</b><span>Discovery call</span></div>
+            <div class="sr"><i></i><b>Day 2</b><span>Narrative strategy</span></div>
+            <div class="sr"><i></i><b>Day 3</b><span>Design &amp; build</span></div>
+            <div class="sr"><i></i><b>Day 4</b><span>Refinement</span></div>
+            <div class="sr"><i></i><b>Day 5</b><span>Delivery &amp; handoff</span></div>
+          </div>
           <ul class="feat-list">
-            <li class="feat-item"><i class="ph ph-calendar-check"></i><span><b>5-day</b> strategy + design engagement</span></li>
-            <li class="feat-item"><i class="ph ph-chat-circle-dots"></i><span><b>Day 1:</b> Discovery call + narrative strategy</span></li>
-            <li class="feat-item"><i class="ph ph-paint-brush-broad"></i><span><b>Day 2–4:</b> Full design &amp; iteration</span></li>
-            <li class="feat-item"><i class="ph ph-check-circle"></i><span><b>Day 5:</b> Final delivery</span></li>
+            <li class="feat-item"><i class="ph ph-check-circle"></i><span><b>Unlimited</b> revisions</span></li>
+            <li class="feat-item"><i class="ph ph-check-circle"></i><span>Dedicated project lead</span></li>
           </ul>
         </div>
       </section>
