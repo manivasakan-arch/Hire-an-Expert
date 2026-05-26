@@ -446,7 +446,7 @@
           <div class="card-head">
             <h3 class="card-name">Standard</h3>
             <div class="card-price">
-              <div class="price-amt"><span class="price-usd">$</span><span id="price-standard">750</span></div>
+              <div class="price-amt"><span class="price-usd">$</span><span id="price-standard">599</span></div>
               <div class="price-sub" id="note-standard">72 hours</div>
             </div>
           </div>
@@ -471,7 +471,7 @@
           <div class="card-head">
             <h3 class="card-name">Expedited</h3>
             <div class="card-price">
-              <div class="price-amt"><span class="price-usd">$</span><span id="price-expedited">1500</span></div>
+              <div class="price-amt"><span class="price-usd">$</span><span id="price-expedited">899</span></div>
               <div class="price-sub" id="note-expedited">24 hours</div>
             </div>
           </div>
@@ -739,8 +739,8 @@
       <h2 class="cta-band-title">Pay now and we start today.</h2>
       <p class="cta-band-sub" id="cta-ready-sub">For up to 10 slides. Pick your turnaround below.</p>
       <div class="cta-pay-row">
-        <button class="cta-band-btn cta-band-btn-ghost" onclick="pay(72)">Pay <span class="pay-amt" id="cta-pay-std">$750</span> <span class="pay-dot">&bull;</span> <small>72h</small></button>
-        <button class="cta-band-btn" onclick="pay(24)">Pay <span class="pay-amt" id="cta-pay-exp">$1,500</span> <span class="pay-dot">&bull;</span> <small>24h</small></button>
+        <button class="cta-band-btn cta-band-btn-ghost" onclick="pay(72)">Pay <span class="pay-amt" id="cta-pay-std">$599</span> <span class="pay-dot">&bull;</span> <small>72h</small></button>
+        <button class="cta-band-btn" onclick="pay(24)">Pay <span class="pay-amt" id="cta-pay-exp">$899</span> <span class="pay-dot">&bull;</span> <small>24h</small></button>
       </div>
     </div>
   </div>
@@ -780,15 +780,22 @@
 </aside>
 
 <script>
-  const PRICE = { base24:1500, base72:750, extra24:50, extra72:40 };
-  const INCLUDED = 25;
+  // ── Pricing engine ───────────────────────────────────────────────
+  // Standard: $599 base (first 10 slides) + $20/slide (11–20) + $30/slide (21–40)
+  // Expedited: Standard × 1.5, rounded up to nearest charm price ($X99)
+  function standardPrice(slides) {
+    let p = 599;                                          // base, includes first 10
+    if (slides > 10) p += (Math.min(slides, 20) - 10) * 20;  // 11–20 @ $20/slide
+    if (slides > 20) p += (Math.min(slides, 40) - 20) * 30;  // 21–40 @ $30/slide
+    return p;
+  }
+  function charmUp(n) { return Math.ceil((n - 99) / 100) * 100 + 99; }  // → nearest $X99 ≥ n
+  function expeditedPrice(slides) { return charmUp(standardPrice(slides) * 1.5); }
 
   let selectedSlides = null;
 
   function computePrice(slides, hours) {
-    const base  = hours === 24 ? PRICE.base24  : PRICE.base72;
-    const extra = hours === 24 ? PRICE.extra24 : PRICE.extra72;
-    return base + Math.max(0, slides - INCLUDED) * extra;
+    return hours === 24 ? expeditedPrice(slides) : standardPrice(slides);
   }
 
   function fmt(n) { return n.toLocaleString('en-US'); }
