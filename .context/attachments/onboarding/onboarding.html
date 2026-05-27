@@ -235,8 +235,9 @@
   body.ob-modal{background:transparent}
   body.ob-modal .topbar,body.ob-modal .navfoot{display:none}
   body.ob-modal main{flex:none;max-width:none;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:clamp(20px,5vh,64px) 16px}
-  body.ob-modal .panel{width:min(640px,100%);max-height:90vh;overflow:auto;position:relative;box-shadow:0 24px 60px rgba(10,25,37,.28);animation:modalpop .32s cubic-bezier(.16,1,.3,1)}
+  body.ob-modal .panel{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(640px,calc(100vw - 32px));max-height:90vh;overflow:auto;box-shadow:0 24px 60px rgba(10,25,37,.28);animation:modalpopc .32s cubic-bezier(.16,1,.3,1)}
   @keyframes modalpop{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes modalpopc{from{opacity:0;transform:translate(-50%,-44%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
   /* smooth height change as the upload inputs collapse / cards appear */
   body.ob-modal .panel{transition:max-height .3s ease}
   #deckfile:not(:empty),#linkcard:not(:empty),#overage:not(:empty){animation:slidein .3s ease}
