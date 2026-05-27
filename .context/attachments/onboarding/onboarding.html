@@ -223,6 +223,52 @@
   .logo-preview .psrc{font-size:12px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .logo-preview .frm{appearance:none;background:none;border:none;color:var(--ink3);cursor:pointer;padding:6px;border-radius:4px;font-size:16px;line-height:1}
   .logo-preview .frm:hover{color:var(--ink);background:#f5f5f5}
+
+  /* Order summary (Step 1) */
+  .ordersum{margin-top:28px}
+  .ordersum-ttl{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .ordersum-ttl i{color:var(--navy);font-size:16px}
+
+  /* ── Stripe-style standalone pay screen ───────────────────────── */
+  #pay-screen{display:none}
+  body.paying .topbar,body.paying .navfoot,body.paying main{display:none}
+  body.paying #pay-screen{display:block;animation:fadein .25s ease}
+  .pay-back{position:fixed;top:28px;left:28px;width:44px;height:44px;border-radius:999px;border:1px solid var(--border);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--ink);z-index:5;transition:.15s ease;padding:0}
+  .pay-back:hover{background:#f5f5f5}
+  .pay-back i{font-size:19px;line-height:1}
+  .pay-wrap{max-width:1040px;margin:0 auto;padding:clamp(56px,8vh,96px) clamp(20px,4vw,40px) 64px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start}
+  @media (max-width:780px){.pay-wrap{grid-template-columns:1fr;gap:36px;padding-top:88px}}
+  .pay-h{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:18px}
+  .pay-merchant{font-size:14px;color:var(--ink2);font-weight:500;margin-bottom:18px}
+  .pay-line{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--border-soft)}
+  .pay-line-name{font-size:15px;font-weight:600;color:var(--ink)}
+  .pay-line-sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
+  .pay-line-amt{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .pay-total{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:15px;font-weight:600;color:var(--ink)}
+  .pay-total span:last-child{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+  .pay-right{border:1px solid var(--border-soft);border-radius:14px;background:#fff;box-shadow:var(--shadow-card);padding:clamp(20px,2.4vw,28px)}
+  .pay-tabs{display:flex;gap:18px;border-bottom:1px solid var(--border-soft);margin-bottom:20px}
+  .pay-tab{appearance:none;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:8px 2px;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink3);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s ease}
+  .pay-tab i{font-size:17px}
+  .pay-tab:hover{color:var(--ink2)}
+  .pay-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
+  .pay-card-head{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--navy);margin-bottom:14px}
+  .pay-card-head i{font-size:18px}
+  .pf-lbl{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin:14px 0 6px}
+  .pf-lbl.first{margin-top:0}
+  .pf-input{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:7px;background:#fff;padding:0 12px;transition:.15s ease}
+  .pf-input:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,25,37,.08)}
+  .pf-input input,.pf-input select{flex:1;border:none;outline:none;background:none;font-family:inherit;font-size:14px;color:var(--ink);padding:11px 0;min-width:0}
+  .pf-brands{font-size:10.5px;font-weight:700;color:var(--ink3);letter-spacing:.4px;white-space:nowrap}
+  .pf-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .upi-box{text-align:center;padding:24px 16px;color:var(--ink2)}
+  .upi-box i{font-size:56px;color:var(--navy)}
+  .upi-box p{font-size:13.5px;margin-top:12px;line-height:1.5}
+  .pay-btn{width:100%;margin-top:24px;height:50px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:.15s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .pay-btn:hover{background:#0f2738}
+  .pay-foot{margin-top:16px;text-align:center;font-size:12px;color:var(--ink3);display:flex;align-items:center;justify-content:center;gap:8px}
+  .pay-foot b{color:var(--ink2);font-weight:700}
+  .pay-foot .dot{color:var(--border)}
 </style>
 </head>
 <body>
@@ -250,11 +296,9 @@
   <!-- STEP 1: Upload deck -->
   <section class="screen is-active" data-screen="1">
     <div class="panel">
-      <div class="success-banner"><i class="ph-fill ph-check-circle"></i>Payment received. Let's set up your project.</div>
-
       <div class="panel-head">
         <h1>Upload your deck</h1>
-        <p>Send us what you have today. We'll redesign every slide.</p>
+        <p>Send us what you have today. We'll redesign every slide, then you check out.</p>
       </div>
 
       <div class="plan-note" id="plan-note">
@@ -277,6 +321,16 @@
       <div class="field">
         <div class="field-lbl">Or share a link <span class="opt">optional · Google Slides, Notion, Figma</span></div>
         <input class="input" type="url" id="decklink" placeholder="https://docs.google.com/presentation/...">
+      </div>
+
+      <div class="ordersum">
+        <div class="ordersum-ttl"><i class="ph-bold ph-receipt"></i>Order summary</div>
+        <div class="summary">
+          <div class="summary-row"><span class="k">Deck Design Service</span><span class="v" id="os-line">$750</span></div>
+          <div class="summary-row"><span class="k">Slides</span><span class="v" id="os-slides">up to 20 slides</span></div>
+          <div class="summary-row"><span class="k">Delivery</span><span class="v" id="os-delivery">Standard · 72 hours</span></div>
+          <div class="summary-row total"><span class="k">Total</span><span class="v">$<span id="os-total">750</span></span></div>
+        </div>
       </div>
 
     </div>
@@ -393,6 +447,67 @@
 
 </main>
 
+<!-- Standalone Stripe-style checkout screen (interstitial between Upload and Brand) -->
+<div id="pay-screen">
+  <button class="pay-back" type="button" onclick="backFromPay()" aria-label="Back"><i class="ph ph-arrow-left"></i></button>
+  <div class="pay-wrap">
+
+    <!-- LEFT: order summary -->
+    <div class="pay-left">
+      <h2 class="pay-h">Order summary</h2>
+      <p class="pay-merchant">Hire an Expert</p>
+      <div class="pay-line">
+        <div>
+          <div class="pay-line-name">Deck Design Service</div>
+          <div class="pay-line-sub" id="pay-line-sub">up to 20 slides · Standard · 72 hours</div>
+        </div>
+        <div class="pay-line-amt" id="pay-line-amt">$750</div>
+      </div>
+      <div class="pay-total"><span>Total</span><span id="pay-total-amt">$750</span></div>
+    </div>
+
+    <!-- RIGHT: payment method -->
+    <div class="pay-right">
+      <h2 class="pay-h">Payment method</h2>
+      <div class="pay-tabs">
+        <button class="pay-tab active" type="button" data-tab="card" onclick="payTab(this)"><i class="ph-fill ph-credit-card"></i>Credit/Debit card</button>
+        <button class="pay-tab" type="button" data-tab="upi" onclick="payTab(this)"><i class="ph-fill ph-qr-code"></i>UPI/QR Code</button>
+      </div>
+
+      <div class="pay-form" data-pane="card">
+        <div class="pay-card-head"><i class="ph-fill ph-credit-card"></i>Card</div>
+        <label class="pf-lbl first">Card number</label>
+        <div class="pf-input"><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234"><span class="pf-brands">VISA · MC · AMEX</span></div>
+        <div class="pf-row2">
+          <div><label class="pf-lbl">Expiry date</label><div class="pf-input"><input type="text" placeholder="MM / YY"></div></div>
+          <div><label class="pf-lbl">Security code</label><div class="pf-input"><input type="text" inputmode="numeric" placeholder="CVC"><i class="ph ph-credit-card" style="color:var(--ink3);font-size:16px"></i></div></div>
+        </div>
+        <label class="pf-lbl">Country/Territory</label>
+        <div class="pf-input">
+          <select>
+            <option>United States</option>
+            <option>India</option>
+            <option>United Kingdom</option>
+            <option>Canada</option>
+            <option>Australia</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pay-form" data-pane="upi" hidden>
+        <div class="upi-box">
+          <i class="ph ph-qr-code"></i>
+          <p>Scan the QR with any UPI app to pay <b id="upi-amt">$750</b>.</p>
+        </div>
+      </div>
+
+      <button class="pay-btn" type="button" onclick="confirmPay()">Pay <span id="pay-btn-amt">$750</span></button>
+      <div class="pay-foot">Powered by <b>stripe</b><span class="dot">·</span>Terms<span class="dot">·</span>Privacy</div>
+    </div>
+
+  </div>
+</div>
+
 <footer class="navfoot">
   <div class="navfoot-inner">
     <button class="btn btn-ghost" id="back" disabled><i class="ph-bold ph-arrow-left"></i>Back</button>
@@ -420,6 +535,38 @@
   function expeditedPrice(s){ return charmUp(standardPrice(s) * 1.5); }
   function priceFor(s){ return hours === 24 ? expeditedPrice(s) : standardPrice(s); }
 
+  // ── Live order summary / checkout total ───────────────────────────────────
+  let currentTotal = +total;
+  const slidesTxt   = (speed === 'sprint') ? 'Any deck size' : (slideLbl + ' slides');
+  const deliveryTxt = (speed === 'sprint') ? '5-day Strategy Sprint'
+                    : (speed === 'expedited' ? 'Expedited · ' + hours + ' hours' : 'Standard · ' + hours + ' hours');
+  function money(n){ return '$' + (+n).toLocaleString('en-US'); }
+  function setTxt(id, t){ const e = document.getElementById(id); if (e) e.textContent = t; }
+  function updateSummary(){
+    const m = money(currentTotal);
+    setTxt('os-line', m); setTxt('os-total', (+currentTotal).toLocaleString('en-US'));
+    setTxt('os-slides', slidesTxt); setTxt('os-delivery', deliveryTxt);
+    setTxt('pay-line-amt', m); setTxt('pay-total-amt', m);
+    setTxt('pay-btn-amt', m); setTxt('upi-amt', m);
+    setTxt('pay-line-sub', slidesTxt + ' · ' + deliveryTxt);
+    if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next)
+      $next.innerHTML = 'Checkout · ' + m + ' <i class="ph-bold ph-arrow-right"></i>';
+  }
+
+  // ── Stripe-style pay screen control ───────────────────────────────────────
+  function goToPay(){ updateSummary(); document.body.classList.add('paying'); window.scrollTo(0, 0); }
+  function backFromPay(){ document.body.classList.remove('paying'); }
+  function confirmPay(){
+    document.body.classList.remove('paying');
+    setTxt('sum-total', (+currentTotal).toLocaleString('en-US'));
+    step = 2; paint();
+  }
+  function payTab(btn){
+    document.querySelectorAll('.pay-tab').forEach(t => t.classList.toggle('active', t === btn));
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.pay-form').forEach(f => { f.hidden = (f.dataset.pane !== tab); });
+  }
+
   // ── Stepper navigation ────────────────────────────────────────────────────
   let step = 1;
   const TOTAL_STEPS = 4;
@@ -439,7 +586,9 @@
     $lines.forEach((ln,i) => ln.classList.toggle('is-done', i+1 < step));
     $back.disabled = step === 1;
     $stepNow.textContent = 'Step ' + step;
-    if (step === TOTAL_STEPS){
+    if (step === 1){
+      $next.innerHTML = 'Checkout · ' + money(currentTotal) + ' <i class="ph-bold ph-arrow-right"></i>';
+    } else if (step === TOTAL_STEPS){
       $next.innerHTML = 'Open dashboard <i class="ph-bold ph-arrow-square-out"></i>';
     } else if (step === TOTAL_STEPS - 1){
       $next.innerHTML = 'Finish <i class="ph-bold ph-check"></i>';
@@ -456,7 +605,7 @@
     }
   }
   function back(){ if (step > 1){ step--; paint(); } }
-  $next.addEventListener('click', () => next(false));
+  $next.addEventListener('click', () => { if (step === 1) goToPay(); else next(false); });
   $back.addEventListener('click', back);
 
   // ── File upload UX (drag + drop + name display) ───────────────────────────
@@ -613,6 +762,7 @@
   $deckInput.addEventListener('change', async () => {
     $countResult.innerHTML = '';
     $overage.innerHTML = '';
+    currentTotal = +total; updateSummary();   // reset to base; renderCount may bump it on overage
     const f = $deckInput.files[0];
     if (!f) return;
 
@@ -687,6 +837,17 @@
             '</label>' +
           '</div>' +
         '</div>';
+
+      // default = summarize (base price); wire radios to update the live total
+      currentTotal = priceFor(slidesCap);
+      updateSummary();
+      $overage.querySelectorAll('input[name="overage"]').forEach(r =>
+        r.addEventListener('change', () => {
+          const sel = $overage.querySelector('input[name="overage"]:checked');
+          currentTotal = (sel && sel.value === 'extras') ? priceFor(count) : priceFor(slidesCap);
+          updateSummary();
+        })
+      );
     }
   }
 
@@ -738,6 +899,7 @@
   document.getElementById('sum-total').textContent = (+total).toLocaleString('en-US');
   document.getElementById('next-eta').textContent = etaDate;
 
+  updateSummary();
   paint();
 </script>
 
