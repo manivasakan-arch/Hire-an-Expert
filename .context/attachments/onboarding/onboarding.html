@@ -320,6 +320,26 @@
   .pay-foot .vbar{width:1px;height:12px;background:var(--border)}
   .pay-foot a{color:var(--ink3);text-decoration:none;cursor:pointer}
   .pay-foot a:hover{color:var(--ink2)}
+
+  /* Overage: expandable, auto-open when the deck is large */
+  .overage-head{cursor:pointer}
+  .ov-caret{margin-left:auto;color:var(--ink3)!important;transition:transform .25s ease;font-size:14px!important}
+  .overage.open .ov-caret{transform:rotate(180deg)}
+  .overage-opts{max-height:0;overflow:hidden;transition:max-height .32s ease}
+  .overage.open .overage-opts{max-height:460px}
+
+  /* Payment success screen */
+  #success-screen{display:none}
+  body.paid-ok{background:#fafafa}
+  body.paid-ok .topbar,body.paid-ok .navfoot,body.paid-ok main,body.paid-ok #pay-screen,body.paid-ok .modal-close{display:none}
+  body.paid-ok #success-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;animation:fadein .3s ease}
+  .success-card{text-align:center;max-width:460px;width:100%}
+  .success-ico{width:84px;height:84px;border-radius:999px;background:#f0fdf4;display:grid;place-items:center;margin:0 auto 22px;animation:modalpop .42s cubic-bezier(.16,1,.3,1)}
+  .success-ico i{font-size:52px;color:var(--success)}
+  .success-card h2{font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--navy)}
+  .success-card p{margin-top:10px;font-size:15px;color:var(--ink2);line-height:1.55}
+  .success-card p b{color:var(--ink);font-weight:700}
+  .success-card .pay-btn{margin:28px auto 0;max-width:320px}
 </style>
 </head>
 <body>
@@ -386,7 +406,6 @@
   <!-- STEP 2: Brand -->
   <section class="screen" data-screen="2">
     <div class="panel">
-      <div class="success-banner"><i class="ph-fill ph-check-circle"></i>Payment successful. Let's set up your project.</div>
       <div class="prefill-banner" id="prefill-banner" style="display:none">
         <i class="ph-bold ph-sparkle"></i>
         <div class="ctxt"><b>Pre-filled from your account.</b> Logo, colors, and company name pulled from <span id="prefill-source">your website</span>.</div>
@@ -558,6 +577,16 @@
   </div>
 </div>
 
+<!-- Payment success confirmation (after Pay, before Brand) -->
+<div id="success-screen">
+  <div class="success-card">
+    <div class="success-ico"><i class="ph-fill ph-check-circle"></i></div>
+    <h2>Payment successful</h2>
+    <p>We've received <b id="success-amt">$1,199</b>. Your deck is in the queue. Let's set up your project so your designer can start.</p>
+    <button class="pay-btn" type="button" onclick="continueAfterPay()">Continue to setup <i class="ph-bold ph-arrow-right"></i></button>
+  </div>
+</div>
+
 <footer class="navfoot">
   <div class="navfoot-inner">
     <button class="btn btn-ghost" id="back" disabled><i class="ph-bold ph-arrow-left"></i>Back</button>
@@ -650,7 +679,13 @@
   function confirmPay(){
     document.body.classList.remove('paying');
     setTxt('sum-total', (+currentTotal).toLocaleString('en-US'));
-    step = 2; paint();
+    setTxt('success-amt', money(currentTotal));
+    document.body.classList.add('paid-ok');   // show the payment-success screen
+    window.scrollTo(0, 0);
+  }
+  function continueAfterPay(){
+    document.body.classList.remove('paid-ok');
+    step = 2; paint();                          // proceed to Brand setup
   }
   function payTab(btn){
     document.querySelectorAll('.pay-tab').forEach(t => t.classList.toggle('active', t === btn));
@@ -933,8 +968,8 @@
         '</div>';
 
       $overage.innerHTML =
-        '<div class="overage">' +
-          '<div class="overage-head"><i class="ph-bold ph-warning-circle"></i>Choose how to proceed</div>' +
+        '<div class="overage open">' +
+          '<div class="overage-head" onclick="this.closest(\'.overage\').classList.toggle(\'open\')"><i class="ph-bold ph-warning-circle"></i><span>Choose how to proceed</span><i class="ph-bold ph-caret-down ov-caret"></i></div>' +
           '<div class="overage-opts">' +
             '<label class="overage-opt">' +
               '<input type="radio" name="overage" value="summarize" checked>' +
