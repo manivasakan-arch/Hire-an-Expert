@@ -224,8 +224,10 @@
   .logo-preview .frm{appearance:none;background:none;border:none;color:var(--ink3);cursor:pointer;padding:6px;border-radius:4px;font-size:16px;line-height:1}
   .logo-preview .frm:hover{color:var(--ink);background:#f5f5f5}
 
-  /* Order summary (Step 1) */
-  .ordersum{margin-top:28px}
+  /* Order summary (Step 1) — hidden until a deck is uploaded */
+  .ordersum{margin-top:28px;display:none}
+  .ordersum.reveal{display:block;animation:slidein .3s ease}
+  @keyframes slidein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
   .ordersum-ttl{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:7px}
   .ordersum-ttl i{color:var(--navy);font-size:16px}
 
@@ -555,6 +557,20 @@
       $next.innerHTML = 'Pay now · ' + m + ' <i class="ph-bold ph-arrow-right"></i>';
   }
 
+  // ── Reveal summary + enable Pay-now only after an upload ──────────────────
+  function hasUpload(){
+    const fi = document.getElementById('deckinput');
+    const ln = document.getElementById('decklink');
+    return (fi && fi.files.length > 0) || (ln && ln.value.trim() !== '');
+  }
+  function refreshUploadState(){
+    const ok = hasUpload();
+    const os = document.querySelector('.ordersum');
+    if (os) os.classList.toggle('reveal', ok);
+    if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next) $next.disabled = !ok;
+    if (ok) updateSummary();
+  }
+
   // ── Stripe-style pay screen control ───────────────────────────────────────
   function goToPay(){ updateSummary(); document.body.classList.add('paying'); window.scrollTo(0, 0); }
   function backFromPay(){ document.body.classList.remove('paying'); }
@@ -590,6 +606,7 @@
     });
     $lines.forEach((ln,i) => ln.classList.toggle('is-done', i < ai));
     $back.disabled = step === 1;
+    $next.disabled = (step === 1) ? !hasUpload() : false;
     $stepNow.textContent = 'Step ' + (ai + 1);
     if (step === 1){
       $next.innerHTML = 'Pay now · ' + money(currentTotal) + ' <i class="ph-bold ph-arrow-right"></i>';
@@ -643,7 +660,11 @@
           '</div>' +
           '<button class="frm" type="button" aria-label="Remove"><i class="ph ph-x"></i></button>' +
         '</div>';
-      slot.querySelector('.frm').addEventListener('click', () => { inp.value=''; slot.innerHTML=''; });
+      slot.querySelector('.frm').addEventListener('click', () => {
+        inp.value=''; slot.innerHTML='';
+        if (inputId === 'deckinput'){ document.getElementById('overage').innerHTML=''; currentTotal = +total; updateSummary(); }
+        refreshUploadState();   // collapse summary + disable Pay-now if nothing left
+      });
     }
   }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -768,6 +789,7 @@
     $countResult.innerHTML = '';
     $overage.innerHTML = '';
     currentTotal = +total; updateSummary();   // reset to base; renderCount may bump it on overage
+    refreshUploadState();                      // reveal summary + enable Pay-now once a file is added
     const f = $deckInput.files[0];
     if (!f) return;
 
@@ -904,7 +926,9 @@
   document.getElementById('sum-total').textContent = (+total).toLocaleString('en-US');
   document.getElementById('next-eta').textContent = etaDate;
 
+  document.getElementById('decklink').addEventListener('input', refreshUploadState);
   updateSummary();
+  refreshUploadState();
   paint();
 </script>
 
