@@ -223,22 +223,143 @@
   .logo-preview .psrc{font-size:12px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .logo-preview .frm{appearance:none;background:none;border:none;color:var(--ink3);cursor:pointer;padding:6px;border-radius:4px;font-size:16px;line-height:1}
   .logo-preview .frm:hover{color:var(--ink);background:#f5f5f5}
+
+  /* Order summary (Step 1) — hidden until a deck is uploaded */
+  .ordersum{margin-top:28px;display:none}
+  .ordersum.reveal{display:block;animation:slidein .3s ease}
+  @keyframes slidein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+  /* ── Upload step rendered as a modal over the (transparent) host page ───── */
+  .modal-close{display:none}
+  .modal-pay{display:none;width:100%;margin-top:22px}
+  body.ob-modal{background:transparent}
+  body.ob-modal .topbar,body.ob-modal .navfoot{display:none}
+  body.ob-modal main{flex:none;max-width:none;display:block;min-height:0;padding:0}
+  body.ob-modal .modal-shell{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(640px,calc(100vw - 32px));animation:modalpopc .32s cubic-bezier(.16,1,.3,1)}
+  body.ob-modal .panel{width:100%;max-height:90vh;overflow:auto;box-shadow:0 24px 60px rgba(10,25,37,.28)}
+  @keyframes modalpop{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes modalpopc{from{opacity:0;transform:translate(-50%,-44%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%)}}
+  /* smooth height change as the upload inputs collapse / cards appear */
+  body.ob-modal .panel{transition:max-height .3s ease}
+  #deckfile:not(:empty),#linkcard:not(:empty),#overage:not(:empty){animation:slidein .3s ease}
+  body.ob-modal .modal-pay{display:inline-flex}
+  body.ob-modal .modal-close{display:grid;place-items:center;position:absolute;top:0;right:-52px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-soft);background:#fff;color:var(--ink);cursor:pointer;z-index:40;padding:0;transition:.15s ease;box-shadow:0 2px 8px rgba(10,25,37,.14)}
+  body.ob-modal .modal-close:hover{background:#f5f5f5}
+  body.ob-modal .modal-close i{font-size:18px;line-height:1}
+  body.paying{background:#fafafa}
+  body.paying .modal-close{display:none}
+  /* once a deck/link is added, collapse the upload inputs (keep the file/link card + overage) */
+  .panel.uploaded #deckdrop{display:none}
+  .panel.uploaded .linkfield{display:none}
+  .ordersum-ttl{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .ordersum-ttl i{color:var(--navy);font-size:16px}
+
+  /* ── Stripe-style standalone pay screen ───────────────────────── */
+  #pay-screen{display:none}
+  body.paying .topbar,body.paying .navfoot,body.paying main{display:none}
+  body.paying #pay-screen{display:block;animation:fadein .25s ease}
+  .pay-back{position:fixed;top:28px;left:28px;width:44px;height:44px;border-radius:999px;border:1px solid var(--border);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--ink);z-index:5;transition:.15s ease;padding:0}
+  .pay-back:hover{background:#f5f5f5}
+  .pay-back i{font-size:19px;line-height:1}
+  .pay-wrap{max-width:1040px;margin:0 auto;padding:clamp(56px,8vh,96px) clamp(20px,4vw,40px) 64px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start}
+  @media (max-width:780px){.pay-wrap{grid-template-columns:1fr;gap:36px;padding-top:88px}}
+  .pay-h{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:18px}
+  .pay-merchant{font-size:14px;color:var(--ink2);font-weight:500;margin-bottom:18px}
+  .pay-line{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--border-soft)}
+  .pay-line-name{font-size:15px;font-weight:600;color:var(--ink)}
+  .pay-line-sub{font-size:12.5px;color:var(--ink2);margin-top:3px}
+  .pay-line-amt{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .pay-total{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:15px;font-weight:600;color:var(--ink)}
+  .pay-total span:last-child{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+  .pay-right{border:1px solid var(--border-soft);border-radius:14px;background:#fff;box-shadow:var(--shadow-card);padding:clamp(20px,2.4vw,28px)}
+  .pay-tabs{display:flex;gap:18px;border-bottom:1px solid var(--border-soft);margin-bottom:20px}
+  .pay-tab{appearance:none;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;padding:8px 2px;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink3);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s ease}
+  .pay-tab i{font-size:17px}
+  .pay-tab:hover{color:var(--ink2)}
+  .pay-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
+  .pay-card-head{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--navy);margin-bottom:14px}
+  .pay-card-head i{font-size:18px}
+  .pf-lbl{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin:14px 0 6px}
+  .pf-lbl.first{margin-top:0}
+  .pf-input{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:7px;background:#fff;padding:0 12px;transition:.15s ease}
+  .pf-input:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,25,37,.08)}
+  .pf-input input,.pf-input select{flex:1;border:none;outline:none;background:none;font-family:inherit;font-size:14px;color:var(--ink);padding:11px 0;min-width:0}
+  .pf-brands{font-size:10.5px;font-weight:700;color:var(--ink3);letter-spacing:.4px;white-space:nowrap}
+  .pf-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .upi-box{text-align:center;padding:24px 16px;color:var(--ink2)}
+  .upi-box i{font-size:56px;color:var(--navy)}
+  .upi-box p{font-size:13.5px;margin-top:12px;line-height:1.5}
+  .pay-btn{width:100%;margin-top:24px;height:50px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:.15s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .pay-btn:hover{background:#0f2738}
+  .pay-foot{margin-top:16px;text-align:center;font-size:12px;color:var(--ink3);display:flex;align-items:center;justify-content:center;gap:8px}
+  .pay-foot b{color:var(--ink2);font-weight:700}
+  .pay-foot .dot{color:var(--border)}
+
+  /* Upload progress bar (deck) */
+  .upbar{height:5px;border-radius:999px;background:#eef2f6;margin-top:9px;overflow:hidden}
+  .upbar-fill{display:block;height:100%;width:0;border-radius:999px;background:var(--navy);transition:width 1.15s cubic-bezier(.4,0,.2,1)}
+  .file-card.done .ficon{background:#f0fdf4;color:var(--success)}
+
+  /* ── Stripe checkout — exact look ─────────────────────────────── */
+  .pay-tab{align-items:center}
+  .upi-apps{display:inline-flex;align-items:center;gap:3px;margin-left:7px}
+  .upi-apps .ua{width:16px;height:16px;border-radius:4px;display:inline-block}
+  .ua1{background:linear-gradient(135deg,#ff7a00,#11a200)}
+  .ua2{background:#5f259f}
+  .ua3{background:#00baf2}
+  .ua4{background:conic-gradient(from 220deg,#4285f4,#34a853,#fbbc04,#ea4335,#4285f4)}
+  .pay-cardbox{border:1px solid var(--border-soft);border-radius:10px;padding:16px}
+  .pay-card-head{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#2563eb;margin-bottom:12px}
+  .pay-card-head svg{display:block}
+  .pf-brands{display:flex;align-items:center;gap:4px}
+  .pf-brands svg{display:block}
+  .cvc-ico{display:flex;align-items:center}
+  .cvc-ico svg{display:block}
+  .pf-select{position:relative}
+  .pf-select select{appearance:none;-webkit-appearance:none;padding-right:22px}
+  .pf-select i{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:14px;pointer-events:none}
+  .stripe-wm{font-weight:800;color:var(--ink2);letter-spacing:-.03em}
+  .pay-foot .vbar{width:1px;height:12px;background:var(--border)}
+  .pay-foot a{color:var(--ink3);text-decoration:none;cursor:pointer}
+  .pay-foot a:hover{color:var(--ink2)}
+
+  /* Overage: expandable, auto-open when the deck is large */
+  .overage-head{cursor:pointer}
+  .ov-caret{margin-left:auto;color:var(--ink3)!important;transition:transform .25s ease;font-size:14px!important}
+  .overage.open .ov-caret{transform:rotate(180deg)}
+  .overage-opts{max-height:0;overflow:hidden;transition:max-height .32s ease}
+  .overage.open .overage-opts{max-height:460px}
+
+  /* Payment success screen */
+  #success-screen{display:none}
+  body.paid-ok{background:#fafafa}
+  body.paid-ok .topbar,body.paid-ok .navfoot,body.paid-ok main,body.paid-ok #pay-screen,body.paid-ok .modal-close{display:none}
+  body.paid-ok #success-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;animation:fadein .3s ease}
+  .success-card{text-align:center;max-width:460px;width:100%}
+  .success-ico{width:84px;height:84px;border-radius:999px;background:#f0fdf4;display:grid;place-items:center;margin:0 auto 22px;animation:modalpop .42s cubic-bezier(.16,1,.3,1)}
+  .success-ico i{font-size:52px;color:var(--success)}
+  .success-card h2{font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--navy)}
+  .success-card p{margin-top:10px;font-size:15px;color:var(--ink2);line-height:1.55}
+  .success-card p b{color:var(--ink);font-weight:700}
+  .success-card .pay-btn{margin:28px auto 0;max-width:320px}
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <div class="topbar-row">
-    <a href="#" class="brand" aria-label="Presentations.ai"><img src="logo.png" alt="Presentations.ai"></a>
+    <a href="/" class="brand" aria-label="Presentations.ai"><img src="logo.png" alt="Presentations.ai"></a>
     <div class="stepper-wrap">
       <div class="stepper" id="stepper">
         <div class="step is-current" data-step="1"><div class="step-dot"><span>1</span></div><div class="step-lbl">Upload</div></div>
         <div class="step-line"></div>
-        <div class="step" data-step="2"><div class="step-dot"><span>2</span></div><div class="step-lbl">Brand</div></div>
+        <div class="step" data-step="2"><div class="step-dot"><span>2</span></div><div class="step-lbl">Payment</div></div>
         <div class="step-line"></div>
-        <div class="step" data-step="3"><div class="step-dot"><span>3</span></div><div class="step-lbl">Style</div></div>
+        <div class="step" data-step="3"><div class="step-dot"><span>3</span></div><div class="step-lbl">Brand</div></div>
         <div class="step-line"></div>
-        <div class="step" data-step="4"><div class="step-dot"><span>4</span></div><div class="step-lbl">Done</div></div>
+        <div class="step" data-step="4"><div class="step-dot"><span>4</span></div><div class="step-lbl">Style</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="5"><div class="step-dot"><span>5</span></div><div class="step-lbl">Done</div></div>
       </div>
     </div>
     <button class="close-x" aria-label="Close" onclick="if(window.parent!==window){parent.postMessage('ob-close','*')}else{window.close()}"><i class="ph ph-x"></i></button>
@@ -249,12 +370,12 @@
 
   <!-- STEP 1: Upload deck -->
   <section class="screen is-active" data-screen="1">
-    <div class="panel">
-      <div class="success-banner"><i class="ph-fill ph-check-circle"></i>Payment received. Let's set up your project.</div>
-
+    <div class="modal-shell">
+      <button class="modal-close" type="button" aria-label="Close" onclick="if(window.parent!==window){parent.postMessage('ob-close','*')}else{window.close()}"><i class="ph ph-x"></i></button>
+      <div class="panel">
       <div class="panel-head">
         <h1>Upload your deck</h1>
-        <p>Send us what you have today. We'll redesign every slide.</p>
+        <p>Drop in the deck you have now. An expert redesigns every slide, start to finish.</p>
       </div>
 
       <div class="plan-note" id="plan-note">
@@ -271,14 +392,18 @@
           <input type="file" id="deckinput" accept=".pptx,.pdf,.key,.zip,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf,application/zip,application/x-zip-compressed">
         </div>
         <div id="deckfile"></div>
+        <div id="linkcard"></div>
         <div id="overage"></div>
       </div>
 
-      <div class="field">
+      <div class="field linkfield">
         <div class="field-lbl">Or share a link <span class="opt">optional · Google Slides, Notion, Figma</span></div>
         <input class="input" type="url" id="decklink" placeholder="https://docs.google.com/presentation/...">
       </div>
 
+      <button class="btn btn-primary modal-pay" id="modal-pay" type="button" onclick="goToPay()" disabled>Proceed to payment <i class="ph-bold ph-arrow-right"></i></button>
+
+      </div>
     </div>
   </section>
 
@@ -393,10 +518,83 @@
 
 </main>
 
+<!-- Standalone Stripe-style checkout screen (interstitial between Upload and Brand) -->
+<div id="pay-screen">
+  <button class="pay-back" type="button" onclick="backFromPay()" aria-label="Back"><i class="ph ph-arrow-left"></i></button>
+  <div class="pay-wrap">
+
+    <!-- LEFT: order summary -->
+    <div class="pay-left">
+      <h2 class="pay-h">Order summary</h2>
+      <p class="pay-merchant">Hire an Expert</p>
+      <div class="pay-line">
+        <div>
+          <div class="pay-line-name">Deck Design Service</div>
+          <div class="pay-line-sub" id="pay-line-sub">up to 20 slides · Standard · 72 hours</div>
+        </div>
+        <div class="pay-line-amt" id="pay-line-amt">$750</div>
+      </div>
+      <div class="pay-total"><span>Total</span><span id="pay-total-amt">$750</span></div>
+    </div>
+
+    <!-- RIGHT: payment method -->
+    <div class="pay-right">
+      <h2 class="pay-h">Payment method</h2>
+      <div class="pay-tabs">
+        <button class="pay-tab active" type="button" data-tab="card" onclick="payTab(this)"><i class="ph-fill ph-credit-card"></i>Credit/Debit card</button>
+        <button class="pay-tab" type="button" data-tab="upi" onclick="payTab(this)"><i class="ph-fill ph-qr-code"></i>UPI/QR Code<span class="upi-apps" aria-hidden="true"><span class="ua ua1"></span><span class="ua ua2"></span><span class="ua ua3"></span><span class="ua ua4"></span></span></button>
+      </div>
+
+      <div class="pay-form" data-pane="card">
+        <div class="pay-cardbox">
+          <div class="pay-card-head"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5" fill="#2563eb"/><rect x="2" y="8.5" width="20" height="2.6" fill="#fff" fill-opacity=".92"/></svg>Card</div>
+          <label class="pf-lbl first">Card number</label>
+          <div class="pf-input">
+            <input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234">
+            <span class="pf-brands">
+              <svg width="30" height="20" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e6e6e6"/><text x="24" y="22" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-style="italic" font-size="14" fill="#1a1f71" text-anchor="middle">VISA</text></svg>
+              <svg width="30" height="20" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e6e6e6"/><circle cx="20" cy="16" r="8.5" fill="#eb001b"/><circle cx="28" cy="16" r="8.5" fill="#f79e1b" fill-opacity=".85"/></svg>
+              <svg width="30" height="20" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#1f72cd"/><text x="24" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="8.5" fill="#fff" text-anchor="middle">AMEX</text></svg>
+              <svg width="30" height="20" viewBox="0 0 48 32"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e6e6e6"/><rect x="9" y="7" width="9" height="18" rx="2" fill="#0b4ea2"/><rect x="19.5" y="7" width="9" height="18" rx="2" fill="#be1e2d"/><rect x="30" y="7" width="9" height="18" rx="2" fill="#1a9f4b"/></svg>
+            </span>
+          </div>
+          <div class="pf-row2">
+            <div><label class="pf-lbl">Expiry date</label><div class="pf-input"><input type="text" placeholder="MM / YY"></div></div>
+            <div><label class="pf-lbl">Security code</label><div class="pf-input"><input type="text" inputmode="numeric" placeholder="CVC"><span class="cvc-ico"><svg width="22" height="16" viewBox="0 0 32 22"><rect x="1" y="1" width="30" height="20" rx="3" fill="#fff" stroke="#c9c9c9"/><rect x="1" y="5" width="30" height="3.6" fill="#dedede"/><text x="22" y="18" font-family="Arial" font-size="7" fill="#9a9a9a">123</text></svg></span></div></div>
+          </div>
+          <label class="pf-lbl">Country/Territory</label>
+          <div class="pf-input pf-select"><select><option>United States</option><option>India</option><option>United Kingdom</option><option>Canada</option><option>Australia</option></select><i class="ph ph-caret-down"></i></div>
+        </div>
+      </div>
+
+      <div class="pay-form" data-pane="upi" hidden>
+        <div class="upi-box">
+          <i class="ph ph-qr-code"></i>
+          <p>Scan the QR with any UPI app to pay <b id="upi-amt">$750</b>.</p>
+        </div>
+      </div>
+
+      <button class="pay-btn" type="button" onclick="confirmPay()">Pay <span id="pay-btn-amt">$750</span></button>
+      <div class="pay-foot">Powered by <span class="stripe-wm">stripe</span><span class="vbar"></span><a>Terms</a><a>Privacy</a></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Payment success confirmation (after Pay, before Brand) -->
+<div id="success-screen">
+  <div class="success-card">
+    <div class="success-ico"><i class="ph-fill ph-check-circle"></i></div>
+    <h2>Payment successful</h2>
+    <p>We've received <b id="success-amt">$1,199</b>. Your deck is in the queue. Let's set up your project so your designer can start.</p>
+    <button class="pay-btn" type="button" onclick="continueAfterPay()">Continue to setup <i class="ph-bold ph-arrow-right"></i></button>
+  </div>
+</div>
+
 <footer class="navfoot">
   <div class="navfoot-inner">
     <button class="btn btn-ghost" id="back" disabled><i class="ph-bold ph-arrow-left"></i>Back</button>
-    <span class="step-of"><span id="step-now">Step 1</span> of 4</span>
+    <span class="step-of"><span id="step-now">Step 1</span> of 5</span>
     <button class="btn btn-primary" id="next">Continue <i class="ph-bold ph-arrow-right"></i></button>
   </div>
 </footer>
@@ -420,6 +618,86 @@
   function expeditedPrice(s){ return charmUp(standardPrice(s) * 1.5); }
   function priceFor(s){ return hours === 24 ? expeditedPrice(s) : standardPrice(s); }
 
+  // ── Live order summary / checkout total ───────────────────────────────────
+  let currentTotal = +total;
+  const slidesTxt   = (speed === 'sprint') ? 'Any deck size' : (slideLbl + ' slides');
+  let curSlidesTxt  = slidesTxt;   // reflects "Keep all N slides" choice on the overage step
+  const deliveryTxt = (speed === 'sprint') ? '5-day Strategy Sprint'
+                    : (speed === 'expedited' ? 'Expedited · ' + hours + ' hours' : 'Standard · ' + hours + ' hours');
+  function money(n){ return '$' + (+n).toLocaleString('en-US'); }
+  function setTxt(id, t){ const e = document.getElementById(id); if (e) e.textContent = t; }
+  function updateSummary(){
+    const m = money(currentTotal);
+    setTxt('os-line', m); setTxt('os-total', (+currentTotal).toLocaleString('en-US'));
+    setTxt('os-slides', curSlidesTxt); setTxt('os-delivery', deliveryTxt);
+    setTxt('pay-line-amt', m); setTxt('pay-total-amt', m);
+    setTxt('pay-btn-amt', m); setTxt('upi-amt', m);
+    setTxt('pay-line-sub', curSlidesTxt + ' · ' + deliveryTxt);
+    if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next)
+      $next.innerHTML = 'Proceed to payment <i class="ph-bold ph-arrow-right"></i>';
+  }
+
+  // ── Reveal summary + enable Pay-now only after an upload ──────────────────
+  function hasUpload(){
+    const fi = document.getElementById('deckinput');
+    const ln = document.getElementById('decklink');
+    return (fi && fi.files.length > 0) || (ln && ln.value.trim() !== '');
+  }
+  function renderLinkCard(url){
+    const slot = document.getElementById('linkcard');
+    if (!slot) return;
+    if (!url){ slot.innerHTML = ''; return; }
+    slot.innerHTML =
+      '<div class="file-card">' +
+        '<div class="ficon"><i class="ph-bold ph-link-simple"></i></div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div class="fname">' + escapeHtml(url) + '</div>' +
+          '<div class="fmeta">Shared link</div>' +
+        '</div>' +
+        '<button class="frm" type="button" aria-label="Remove"><i class="ph ph-x"></i></button>' +
+      '</div>';
+    slot.querySelector('.frm').addEventListener('click', () => {
+      document.getElementById('decklink').value = ''; slot.innerHTML = ''; refreshUploadState();
+    });
+  }
+  function refreshUploadState(){
+    const fi = document.getElementById('deckinput');
+    const ln = document.getElementById('decklink');
+    const hasFile = fi && fi.files.length > 0;
+    const hasLink = ln && ln.value.trim() !== '';
+    const ok = hasFile || hasLink;
+    const panel = document.querySelector('.screen[data-screen="1"] .panel');
+    if (panel){
+      panel.classList.toggle('uploaded', ok);     // hide dropzone + link field once something is added
+      panel.classList.toggle('hasfile', hasFile);
+    }
+    renderLinkCard((hasLink && !hasFile) ? ln.value.trim() : '');   // confirm link when no file card present
+    if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next) $next.disabled = !ok;
+    const mp = document.getElementById('modal-pay');
+    if (mp) mp.disabled = !ok;
+    if (ok) updateSummary();
+  }
+
+  // ── Stripe-style pay screen control ───────────────────────────────────────
+  function goToPay(){ updateSummary(); document.body.classList.add('paying'); window.scrollTo(0, 0); }
+  function backFromPay(){ document.body.classList.remove('paying'); }
+  function confirmPay(){
+    document.body.classList.remove('paying');
+    setTxt('sum-total', (+currentTotal).toLocaleString('en-US'));
+    setTxt('success-amt', money(currentTotal));
+    document.body.classList.add('paid-ok');   // show the payment-success screen
+    window.scrollTo(0, 0);
+  }
+  function continueAfterPay(){
+    document.body.classList.remove('paid-ok');
+    step = 2; paint();                          // proceed to Brand setup
+  }
+  function payTab(btn){
+    document.querySelectorAll('.pay-tab').forEach(t => t.classList.toggle('active', t === btn));
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.pay-form').forEach(f => { f.hidden = (f.dataset.pane !== tab); });
+  }
+
   // ── Stepper navigation ────────────────────────────────────────────────────
   let step = 1;
   const TOTAL_STEPS = 4;
@@ -432,14 +710,21 @@
 
   function paint(){
     $screens.forEach(s => s.classList.toggle('is-active', +s.dataset.screen === step));
+    document.body.classList.toggle('ob-modal', step === 1);   // upload step = modal; rest = full page
+    // Stepper has 5 dots: Upload(0) Payment(1) Brand(2) Style(3) Done(4).
+    // Content screens map: upload→0, brand→2, style→3, done→4. Payment(1) is marked done once paid.
+    const ai = (step === 1) ? 0 : step;
     $steps.forEach((s,i) => {
-      s.classList.toggle('is-current', i+1 === step);
-      s.classList.toggle('is-done', i+1 < step);
+      s.classList.toggle('is-current', i === ai);
+      s.classList.toggle('is-done', i < ai);
     });
-    $lines.forEach((ln,i) => ln.classList.toggle('is-done', i+1 < step));
+    $lines.forEach((ln,i) => ln.classList.toggle('is-done', i < ai));
     $back.disabled = step === 1;
-    $stepNow.textContent = 'Step ' + step;
-    if (step === TOTAL_STEPS){
+    $next.disabled = (step === 1) ? !hasUpload() : false;
+    $stepNow.textContent = 'Step ' + (ai + 1);
+    if (step === 1){
+      $next.innerHTML = 'Pay now · ' + money(currentTotal) + ' <i class="ph-bold ph-arrow-right"></i>';
+    } else if (step === TOTAL_STEPS){
       $next.innerHTML = 'Open dashboard <i class="ph-bold ph-arrow-square-out"></i>';
     } else if (step === TOTAL_STEPS - 1){
       $next.innerHTML = 'Finish <i class="ph-bold ph-check"></i>';
@@ -456,7 +741,7 @@
     }
   }
   function back(){ if (step > 1){ step--; paint(); } }
-  $next.addEventListener('click', () => next(false));
+  $next.addEventListener('click', () => { if (step === 1) goToPay(); else next(false); });
   $back.addEventListener('click', back);
 
   // ── File upload UX (drag + drop + name display) ───────────────────────────
@@ -480,16 +765,34 @@
     function renderFile(f){
       if (!f){ slot.innerHTML = ''; return; }
       const kb = (f.size/1024).toFixed(0);
+      const up = (inputId === 'deckinput');   // show an uploading progress bar for the deck
       slot.innerHTML =
-        '<div class="file-card">' +
+        '<div class="file-card' + (up ? ' uploading' : '') + '">' +
           '<div class="ficon"><i class="ph-bold ' + iconClass + '"></i></div>' +
           '<div style="flex:1;min-width:0">' +
             '<div class="fname">' + escapeHtml(f.name) + '</div>' +
-            '<div class="fmeta">' + kb + ' KB</div>' +
+            '<div class="fmeta">' + (up ? 'Uploading…' : kb + ' KB') + '</div>' +
+            (up ? '<div class="upbar"><span class="upbar-fill"></span></div>' : '') +
           '</div>' +
           '<button class="frm" type="button" aria-label="Remove"><i class="ph ph-x"></i></button>' +
         '</div>';
-      slot.querySelector('.frm').addEventListener('click', () => { inp.value=''; slot.innerHTML=''; });
+      slot.querySelector('.frm').addEventListener('click', () => {
+        inp.value=''; slot.innerHTML='';
+        if (inputId === 'deckinput'){ document.getElementById('overage').innerHTML=''; currentTotal = +total; updateSummary(); }
+        refreshUploadState();   // collapse summary + disable Pay-now if nothing left
+      });
+      if (up){
+        const fill = slot.querySelector('.upbar-fill');
+        requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
+        setTimeout(() => {
+          const card = slot.querySelector('.file-card');
+          if (!card) return;
+          card.classList.remove('uploading'); card.classList.add('done');
+          const meta = slot.querySelector('.fmeta');
+          if (meta) meta.innerHTML = '<i class="ph-fill ph-check-circle" style="color:var(--success);vertical-align:-2px"></i> Uploaded · ' + kb + ' KB';
+          const bar = slot.querySelector('.upbar'); if (bar) bar.remove();
+        }, 1250);
+      }
     }
   }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -613,6 +916,8 @@
   $deckInput.addEventListener('change', async () => {
     $countResult.innerHTML = '';
     $overage.innerHTML = '';
+    currentTotal = +total; curSlidesTxt = slidesTxt; updateSummary();   // reset to base; renderCount may bump it on overage
+    refreshUploadState();                      // reveal summary + enable Pay-now once a file is added
     const f = $deckInput.files[0];
     if (!f) return;
 
@@ -668,8 +973,8 @@
         '</div>';
 
       $overage.innerHTML =
-        '<div class="overage">' +
-          '<div class="overage-head"><i class="ph-bold ph-warning-circle"></i>Choose how to proceed</div>' +
+        '<div class="overage open">' +
+          '<div class="overage-head" onclick="this.closest(\'.overage\').classList.toggle(\'open\')"><i class="ph-bold ph-warning-circle"></i><span>Choose how to proceed</span><i class="ph-bold ph-caret-down ov-caret"></i></div>' +
           '<div class="overage-opts">' +
             '<label class="overage-opt">' +
               '<input type="radio" name="overage" value="summarize" checked>' +
@@ -687,6 +992,19 @@
             '</label>' +
           '</div>' +
         '</div>';
+
+      // default = summarize (base price); wire radios to update the live total
+      currentTotal = priceFor(slidesCap);
+      updateSummary();
+      $overage.querySelectorAll('input[name="overage"]').forEach(r =>
+        r.addEventListener('change', () => {
+          const sel = $overage.querySelector('input[name="overage"]:checked');
+          const keepAll = sel && sel.value === 'extras';
+          currentTotal = keepAll ? priceFor(count) : priceFor(slidesCap);
+          curSlidesTxt = keepAll ? (count + ' slides') : slidesTxt;   // show actual count when keeping all
+          updateSummary();
+        })
+      );
     }
   }
 
@@ -738,6 +1056,9 @@
   document.getElementById('sum-total').textContent = (+total).toLocaleString('en-US');
   document.getElementById('next-eta').textContent = etaDate;
 
+  document.getElementById('decklink').addEventListener('input', refreshUploadState);
+  updateSummary();
+  refreshUploadState();
   paint();
 </script>
 
