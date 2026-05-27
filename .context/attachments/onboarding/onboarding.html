@@ -243,6 +243,9 @@
   body.ob-modal .modal-close i{font-size:18px;line-height:1}
   body.paying{background:#fafafa}
   body.paying .modal-close{display:none}
+  /* once a deck/link is added, collapse the upload inputs (keep the file/link card + overage) */
+  .panel.uploaded #deckdrop{display:none}
+  .panel.uploaded .linkfield{display:none}
   .ordersum-ttl{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:7px}
   .ordersum-ttl i{color:var(--navy);font-size:16px}
 
@@ -335,25 +338,16 @@
           <input type="file" id="deckinput" accept=".pptx,.pdf,.key,.zip,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf,application/zip,application/x-zip-compressed">
         </div>
         <div id="deckfile"></div>
+        <div id="linkcard"></div>
         <div id="overage"></div>
       </div>
 
-      <div class="field">
+      <div class="field linkfield">
         <div class="field-lbl">Or share a link <span class="opt">optional · Google Slides, Notion, Figma</span></div>
         <input class="input" type="url" id="decklink" placeholder="https://docs.google.com/presentation/...">
       </div>
 
-      <div class="ordersum">
-        <div class="ordersum-ttl"><i class="ph-bold ph-receipt"></i>Order summary</div>
-        <div class="summary">
-          <div class="summary-row"><span class="k">Deck Design Service</span><span class="v" id="os-line">$750</span></div>
-          <div class="summary-row"><span class="k">Slides</span><span class="v" id="os-slides">up to 20 slides</span></div>
-          <div class="summary-row"><span class="k">Delivery</span><span class="v" id="os-delivery">Standard · 72 hours</span></div>
-          <div class="summary-row total"><span class="k">Total</span><span class="v">$<span id="os-total">750</span></span></div>
-        </div>
-      </div>
-
-      <button class="btn btn-primary modal-pay" id="modal-pay" type="button" onclick="goToPay()" disabled>Pay now · $750 <i class="ph-bold ph-arrow-right"></i></button>
+      <button class="btn btn-primary modal-pay" id="modal-pay" type="button" onclick="goToPay()" disabled>Proceed to payment <i class="ph-bold ph-arrow-right"></i></button>
 
     </div>
   </section>
@@ -572,9 +566,7 @@
     setTxt('pay-btn-amt', m); setTxt('upi-amt', m);
     setTxt('pay-line-sub', slidesTxt + ' · ' + deliveryTxt);
     if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next)
-      $next.innerHTML = 'Pay now · ' + m + ' <i class="ph-bold ph-arrow-right"></i>';
-    const mp = document.getElementById('modal-pay');
-    if (mp) mp.innerHTML = 'Pay now · ' + m + ' <i class="ph-bold ph-arrow-right"></i>';
+      $next.innerHTML = 'Proceed to payment <i class="ph-bold ph-arrow-right"></i>';
   }
 
   // ── Reveal summary + enable Pay-now only after an upload ──────────────────
@@ -583,10 +575,35 @@
     const ln = document.getElementById('decklink');
     return (fi && fi.files.length > 0) || (ln && ln.value.trim() !== '');
   }
+  function renderLinkCard(url){
+    const slot = document.getElementById('linkcard');
+    if (!slot) return;
+    if (!url){ slot.innerHTML = ''; return; }
+    slot.innerHTML =
+      '<div class="file-card">' +
+        '<div class="ficon"><i class="ph-bold ph-link-simple"></i></div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div class="fname">' + escapeHtml(url) + '</div>' +
+          '<div class="fmeta">Shared link</div>' +
+        '</div>' +
+        '<button class="frm" type="button" aria-label="Remove"><i class="ph ph-x"></i></button>' +
+      '</div>';
+    slot.querySelector('.frm').addEventListener('click', () => {
+      document.getElementById('decklink').value = ''; slot.innerHTML = ''; refreshUploadState();
+    });
+  }
   function refreshUploadState(){
-    const ok = hasUpload();
-    const os = document.querySelector('.ordersum');
-    if (os) os.classList.toggle('reveal', ok);
+    const fi = document.getElementById('deckinput');
+    const ln = document.getElementById('decklink');
+    const hasFile = fi && fi.files.length > 0;
+    const hasLink = ln && ln.value.trim() !== '';
+    const ok = hasFile || hasLink;
+    const panel = document.querySelector('.screen[data-screen="1"] .panel');
+    if (panel){
+      panel.classList.toggle('uploaded', ok);     // hide dropzone + link field once something is added
+      panel.classList.toggle('hasfile', hasFile);
+    }
+    renderLinkCard((hasLink && !hasFile) ? ln.value.trim() : '');   // confirm link when no file card present
     if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next) $next.disabled = !ok;
     const mp = document.getElementById('modal-pay');
     if (mp) mp.disabled = !ok;
