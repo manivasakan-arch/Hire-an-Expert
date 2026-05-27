@@ -410,6 +410,7 @@
   <!-- STEP 2: Brand -->
   <section class="screen" data-screen="2">
     <div class="panel">
+      <div class="success-banner"><i class="ph-fill ph-check-circle"></i>Payment successful. We've received <b id="paid-amt">$0</b>. Let's set up your project.</div>
       <div class="prefill-banner" id="prefill-banner" style="display:none">
         <i class="ph-bold ph-sparkle"></i>
         <div class="ctxt"><b>Pre-filled from your account.</b> Logo, colors, and company name pulled from <span id="prefill-source">your website</span>.</div>
@@ -581,16 +582,6 @@
   </div>
 </div>
 
-<!-- Payment success confirmation (after Pay, before Brand) -->
-<div id="success-screen">
-  <div class="success-card">
-    <div class="success-ico"><i class="ph-fill ph-check-circle"></i></div>
-    <h2>Payment successful</h2>
-    <p>We've received <b id="success-amt">$1,199</b>. Your deck is in the queue. Let's set up your project so your designer can start.</p>
-    <button class="pay-btn" type="button" onclick="continueAfterPay()">Continue to setup <i class="ph-bold ph-arrow-right"></i></button>
-  </div>
-</div>
-
 <footer class="navfoot">
   <div class="navfoot-inner">
     <button class="btn btn-ghost" id="back" disabled><i class="ph-bold ph-arrow-left"></i>Back</button>
@@ -684,13 +675,8 @@
   function confirmPay(){
     document.body.classList.remove('paying');
     setTxt('sum-total', (+currentTotal).toLocaleString('en-US'));
-    setTxt('success-amt', money(currentTotal));
-    document.body.classList.add('paid-ok');   // show the payment-success screen
-    window.scrollTo(0, 0);
-  }
-  function continueAfterPay(){
-    document.body.classList.remove('paid-ok');
-    step = 2; paint();                          // proceed to Brand setup
+    setTxt('paid-amt', money(currentTotal));
+    step = 2; paint();                          // straight to Brand, success banner shown inline
   }
   function payTab(btn){
     document.querySelectorAll('.pay-tab').forEach(t => t.classList.toggle('active', t === btn));
