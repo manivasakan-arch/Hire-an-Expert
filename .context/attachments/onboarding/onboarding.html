@@ -242,7 +242,7 @@
   body.ob-modal .panel{transition:max-height .3s ease}
   #deckfile:not(:empty),#linkcard:not(:empty),#overage:not(:empty){animation:slidein .3s ease}
   body.ob-modal .modal-pay{display:inline-flex}
-  body.ob-modal .modal-close{display:grid;place-items:center;position:fixed;top:20px;right:20px;width:40px;height:40px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--ink);cursor:pointer;z-index:40;padding:0;transition:.15s ease}
+  body.ob-modal .modal-close{display:grid;place-items:center;position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--ink);cursor:pointer;z-index:40;padding:0;transition:.15s ease}
   body.ob-modal .modal-close:hover{background:#f5f5f5}
   body.ob-modal .modal-close i{font-size:18px;line-height:1}
   body.paying{background:#fafafa}
@@ -369,8 +369,8 @@
 
   <!-- STEP 1: Upload deck -->
   <section class="screen is-active" data-screen="1">
-    <button class="modal-close" type="button" aria-label="Close" onclick="if(window.parent!==window){parent.postMessage('ob-close','*')}else{window.close()}"><i class="ph ph-x"></i></button>
     <div class="panel">
+      <button class="modal-close" type="button" aria-label="Close" onclick="if(window.parent!==window){parent.postMessage('ob-close','*')}else{window.close()}"><i class="ph ph-x"></i></button>
       <div class="panel-head">
         <h1>Upload your deck</h1>
         <p>Drop in the deck you have now. An expert redesigns every slide, start to finish.</p>
@@ -618,6 +618,7 @@
   // ── Live order summary / checkout total ───────────────────────────────────
   let currentTotal = +total;
   const slidesTxt   = (speed === 'sprint') ? 'Any deck size' : (slideLbl + ' slides');
+  let curSlidesTxt  = slidesTxt;   // reflects "Keep all N slides" choice on the overage step
   const deliveryTxt = (speed === 'sprint') ? '5-day Strategy Sprint'
                     : (speed === 'expedited' ? 'Expedited · ' + hours + ' hours' : 'Standard · ' + hours + ' hours');
   function money(n){ return '$' + (+n).toLocaleString('en-US'); }
@@ -625,10 +626,10 @@
   function updateSummary(){
     const m = money(currentTotal);
     setTxt('os-line', m); setTxt('os-total', (+currentTotal).toLocaleString('en-US'));
-    setTxt('os-slides', slidesTxt); setTxt('os-delivery', deliveryTxt);
+    setTxt('os-slides', curSlidesTxt); setTxt('os-delivery', deliveryTxt);
     setTxt('pay-line-amt', m); setTxt('pay-total-amt', m);
     setTxt('pay-btn-amt', m); setTxt('upi-amt', m);
-    setTxt('pay-line-sub', slidesTxt + ' · ' + deliveryTxt);
+    setTxt('pay-line-sub', curSlidesTxt + ' · ' + deliveryTxt);
     if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next)
       $next.innerHTML = 'Proceed to payment <i class="ph-bold ph-arrow-right"></i>';
   }
@@ -912,7 +913,7 @@
   $deckInput.addEventListener('change', async () => {
     $countResult.innerHTML = '';
     $overage.innerHTML = '';
-    currentTotal = +total; updateSummary();   // reset to base; renderCount may bump it on overage
+    currentTotal = +total; curSlidesTxt = slidesTxt; updateSummary();   // reset to base; renderCount may bump it on overage
     refreshUploadState();                      // reveal summary + enable Pay-now once a file is added
     const f = $deckInput.files[0];
     if (!f) return;
@@ -995,7 +996,9 @@
       $overage.querySelectorAll('input[name="overage"]').forEach(r =>
         r.addEventListener('change', () => {
           const sel = $overage.querySelector('input[name="overage"]:checked');
-          currentTotal = (sel && sel.value === 'extras') ? priceFor(count) : priceFor(slidesCap);
+          const keepAll = sel && sel.value === 'extras';
+          currentTotal = keepAll ? priceFor(count) : priceFor(slidesCap);
+          curSlidesTxt = keepAll ? (count + ' slides') : slidesTxt;   // show actual count when keeping all
           updateSummary();
         })
       );
