@@ -280,11 +280,13 @@
       <div class="stepper" id="stepper">
         <div class="step is-current" data-step="1"><div class="step-dot"><span>1</span></div><div class="step-lbl">Upload</div></div>
         <div class="step-line"></div>
-        <div class="step" data-step="2"><div class="step-dot"><span>2</span></div><div class="step-lbl">Brand</div></div>
+        <div class="step" data-step="2"><div class="step-dot"><span>2</span></div><div class="step-lbl">Payment</div></div>
         <div class="step-line"></div>
-        <div class="step" data-step="3"><div class="step-dot"><span>3</span></div><div class="step-lbl">Style</div></div>
+        <div class="step" data-step="3"><div class="step-dot"><span>3</span></div><div class="step-lbl">Brand</div></div>
         <div class="step-line"></div>
-        <div class="step" data-step="4"><div class="step-dot"><span>4</span></div><div class="step-lbl">Done</div></div>
+        <div class="step" data-step="4"><div class="step-dot"><span>4</span></div><div class="step-lbl">Style</div></div>
+        <div class="step-line"></div>
+        <div class="step" data-step="5"><div class="step-dot"><span>5</span></div><div class="step-lbl">Done</div></div>
       </div>
     </div>
     <button class="close-x" aria-label="Close" onclick="if(window.parent!==window){parent.postMessage('ob-close','*')}else{window.close()}"><i class="ph ph-x"></i></button>
@@ -511,7 +513,7 @@
 <footer class="navfoot">
   <div class="navfoot-inner">
     <button class="btn btn-ghost" id="back" disabled><i class="ph-bold ph-arrow-left"></i>Back</button>
-    <span class="step-of"><span id="step-now">Step 1</span> of 4</span>
+    <span class="step-of"><span id="step-now">Step 1</span> of 5</span>
     <button class="btn btn-primary" id="next">Continue <i class="ph-bold ph-arrow-right"></i></button>
   </div>
 </footer>
@@ -550,7 +552,7 @@
     setTxt('pay-btn-amt', m); setTxt('upi-amt', m);
     setTxt('pay-line-sub', slidesTxt + ' · ' + deliveryTxt);
     if (typeof step !== 'undefined' && step === 1 && typeof $next !== 'undefined' && $next)
-      $next.innerHTML = 'Checkout · ' + m + ' <i class="ph-bold ph-arrow-right"></i>';
+      $next.innerHTML = 'Pay now · ' + m + ' <i class="ph-bold ph-arrow-right"></i>';
   }
 
   // ── Stripe-style pay screen control ───────────────────────────────────────
@@ -579,15 +581,18 @@
 
   function paint(){
     $screens.forEach(s => s.classList.toggle('is-active', +s.dataset.screen === step));
+    // Stepper has 5 dots: Upload(0) Payment(1) Brand(2) Style(3) Done(4).
+    // Content screens map: upload→0, brand→2, style→3, done→4. Payment(1) is marked done once paid.
+    const ai = (step === 1) ? 0 : step;
     $steps.forEach((s,i) => {
-      s.classList.toggle('is-current', i+1 === step);
-      s.classList.toggle('is-done', i+1 < step);
+      s.classList.toggle('is-current', i === ai);
+      s.classList.toggle('is-done', i < ai);
     });
-    $lines.forEach((ln,i) => ln.classList.toggle('is-done', i+1 < step));
+    $lines.forEach((ln,i) => ln.classList.toggle('is-done', i < ai));
     $back.disabled = step === 1;
-    $stepNow.textContent = 'Step ' + step;
+    $stepNow.textContent = 'Step ' + (ai + 1);
     if (step === 1){
-      $next.innerHTML = 'Checkout · ' + money(currentTotal) + ' <i class="ph-bold ph-arrow-right"></i>';
+      $next.innerHTML = 'Pay now · ' + money(currentTotal) + ' <i class="ph-bold ph-arrow-right"></i>';
     } else if (step === TOTAL_STEPS){
       $next.innerHTML = 'Open dashboard <i class="ph-bold ph-arrow-square-out"></i>';
     } else if (step === TOTAL_STEPS - 1){
