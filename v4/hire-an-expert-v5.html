@@ -84,8 +84,29 @@
   @media (max-width:540px){.tiers{grid-template-columns:repeat(2,1fr)}}
 
   /* Cards reveal */
-  .cards-section{max-height:0;overflow:hidden;opacity:0;transform:translateY(16px);transition:max-height .5s ease,opacity .4s ease,transform .4s ease;pointer-events:none}
-  .cards-section.visible{max-height:700px;overflow:visible;opacity:1;transform:translateY(0);pointer-events:auto;margin-top:clamp(20px,2.4vw,36px)}
+  .cards-section{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .35s ease;pointer-events:none}
+  .cards-section.visible{max-height:700px;overflow:visible;opacity:1;pointer-events:auto;margin-top:clamp(20px,2.4vw,36px)}
+
+  /* Per-card slide-in (desktop). Left slides from left, right from right, center drops in. */
+  @media (min-width:901px){
+    .cards-section .card-left{opacity:0;transform:translateX(-60px);transition:opacity .55s cubic-bezier(.22,1,.36,1) .05s,transform .55s cubic-bezier(.22,1,.36,1) .05s}
+    .cards-section .card-right{opacity:0;transform:translateX(60px);transition:opacity .55s cubic-bezier(.22,1,.36,1) .05s,transform .55s cubic-bezier(.22,1,.36,1) .05s}
+    .cards-section .card-pro{opacity:0;transform:translateX(-50%) translateY(-32px) scale(.96);transition:opacity .6s cubic-bezier(.34,1.46,.5,1) .2s,transform .6s cubic-bezier(.34,1.46,.5,1) .2s}
+    .cards-section.visible .card-left{opacity:1;transform:translateX(0)}
+    .cards-section.visible .card-right{opacity:1;transform:translateX(0)}
+    .cards-section.visible .card-pro{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+  }
+  @media (max-width:900px){
+    .cards-section .card,.cards-section .card-pro{opacity:0;transform:translateY(20px);transition:opacity .45s ease,transform .45s ease}
+    .cards-section .card-left{transition-delay:.05s}
+    .cards-section .card-pro{transition-delay:.15s}
+    .cards-section .card-right{transition-delay:.25s}
+    .cards-section.visible .card,.cards-section.visible .card-pro{opacity:1;transform:translateY(0)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .cards-section .card,.cards-section .card-left,.cards-section .card-right,.cards-section .card-pro{transition:none!important;opacity:1!important;transform:none!important}
+    .cards-section .card-pro{transform:translateX(-50%)!important}
+  }
 
   /* ── 3-card tray: exact v5 layout ───────────────────────────── */
   .cards-tray{position:relative;width:100%;max-width:1128px;margin:0 auto;padding-top:21px;padding-bottom:8px}
