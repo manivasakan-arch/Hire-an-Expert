@@ -273,9 +273,10 @@
   .tl-ctext{font-family:var(--font);font-size:14px;line-height:1.5;color:var(--ink2);margin:0}
   @media (max-width:760px){
     .tl-steps{flex-direction:column;overflow:visible;gap:18px;padding-left:8px;isolation:isolate}
-    .tl-steps::before,.tl-steps::after{top:24px;bottom:24px;left:31.5px;right:auto;width:1px;height:auto;z-index:-1;background:rgba(37,99,235,.18)}
-    .tl-steps::after{background:linear-gradient(180deg,transparent 0%,rgba(37,99,235,.45) 50%,transparent 100%);background-size:100% 150px;background-repeat:no-repeat}
+    .tl-steps::before,.tl-steps::after{display:none}
     .tl-step{flex:0 0 auto;text-align:left;padding:0 0 0 64px;position:relative;min-height:48px;z-index:1}
+    .tl-step::before{content:"";position:absolute;left:31.5px;top:48px;bottom:-18px;width:1px;background:rgba(37,99,235,.18);z-index:-1}
+    .tl-step:last-child::before{display:none}
     .tl-step .tl-node{position:absolute;left:0;top:0;height:48px;width:48px;margin:0;z-index:2}
     .tl-step .tl-ic{z-index:2;background:#fff}
     .tl-step:last-child .tl-ic{background:var(--blue)}
