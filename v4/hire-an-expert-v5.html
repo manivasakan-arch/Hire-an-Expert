@@ -1038,15 +1038,23 @@
     io.observe(hiw);
   })();
 
-  // Testimonials section reveal on scroll
+  // Testimonials section reveal — only after user scrolls down to it
   (function(){
     const tp = document.getElementById('t-pin');
     if (!tp) return;
     if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion:reduce)').matches) { tp.classList.add('revealed'); return; }
+    // Sentinel placed inside testimonials head so it only triggers when user has scrolled
+    // the head into the top half of viewport (cards/hero have moved up).
+    const sentinel = tp.querySelector('.t-pin-head') || tp;
     const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { tp.classList.add('revealed'); io.disconnect(); } });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
-    io.observe(tp);
+      entries.forEach(e => {
+        if (e.isIntersecting && e.intersectionRatio > 0) {
+          tp.classList.add('revealed');
+          io.disconnect();
+        }
+      });
+    }, { rootMargin: '-30% 0px -45% 0px', threshold: 0 });
+    io.observe(sentinel);
   })();
 </script>
 
