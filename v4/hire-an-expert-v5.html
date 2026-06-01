@@ -192,9 +192,7 @@
   /* ── Testimonials — v5 style ──────────────────────────────── */
   /* testimonials v2 — figma redesign: wide horizontal cards, serif quote left + stacked image deck right */
   /* pinned horizontal scroll: .t-pin = tall wrapper, .t-pin-sticky = 100vh viewport, JS translates the track */
-  .t-pin{position:relative;margin-top:0;opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
-  .t-pin.revealed{opacity:1;transform:translateY(0)}
-  @media (prefers-reduced-motion:reduce){.t-pin{opacity:1!important;transform:none!important;transition:none!important}}
+  .t-pin{position:relative;margin-top:0}
   .t-pin-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:clamp(24px,4vh,48px);overflow:hidden}
   .t-pin-head{flex:0 0 auto;text-align:center;padding:0 clamp(20px,4vw,56px)}
   .t-pin-eyebrow{font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:0 0 12px}
@@ -1038,24 +1036,6 @@
     io.observe(hiw);
   })();
 
-  // Testimonials section reveal — only after user scrolls down to it
-  (function(){
-    const tp = document.getElementById('t-pin');
-    if (!tp) return;
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion:reduce)').matches) { tp.classList.add('revealed'); return; }
-    // Sentinel placed inside testimonials head so it only triggers when user has scrolled
-    // the head into the top half of viewport (cards/hero have moved up).
-    const sentinel = tp.querySelector('.t-pin-head') || tp;
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting && e.intersectionRatio > 0) {
-          tp.classList.add('revealed');
-          io.disconnect();
-        }
-      });
-    }, { rootMargin: '-30% 0px -45% 0px', threshold: 0 });
-    io.observe(sentinel);
-  })();
 </script>
 
 <!-- Inline onboarding overlay -->
